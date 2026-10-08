@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+next-env.d.ts
+.turbo/
+
+# production
+build/
+dist/
+
+# misc
+.DS_Store
+*.pem
+.vercel
+*.tsbuildinfo
+coverage/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files — never commit secrets
+.env
+.env*.local
+.env.production
+
+# design-source heavy payloads (unpacked on disk and inspected, not shipped)
+design-source/Djoz-master/Source/*.zip
+design-source/Djoz-master/music-files/
+design-source/Djoz-master/img/
+design-source/_archive-Djoz-master.zip
+
+# local scratch
+/tmp/
+.Uploads
+
+# original uploaded split archive (kept on disk for audit)
+design-source/_upload/
+
+# generated intermediates (Rockville TTF for icon rendering)
+.cache/
