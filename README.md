@@ -135,7 +135,7 @@ when the probe reports one — the store and UI contract do not change.
 | `/legal/cookie-policy` | static | Necessary / Functional / Analytics categories |
 | `/sitemap.xml` | dynamic | Static routes + presenters + every news article |
 | `/robots.txt` | static-ish | Allows all content, disallows `/api/` and `/register` |
-| `/manifest.webmanifest` | generated | PWA manifest with three shortcuts |
+| `/manifest.webmanifest` | static | PWA manifest with three shortcuts (`public/manifest.webmanifest`) |
 | `not-found` | — | "This broadcast channel was not found." + Return to Live Radio |
 | `error` / `global-error` | — | "We are off-air temporarily. Back soon." + Try Again + WhatsApp number |
 
@@ -239,9 +239,10 @@ Verified at the five specified breakpoints: **1440 / 1024 / 768 / 390 / 320 px**
 ## 11. PWA and offline player fallback
 
 `public/sw.js` caches the app shell, keeps the last three audio responses in a media cache and
-serves an offline document that still identifies the station. `src/app/manifest.ts` provides
-install shortcuts for Listen live, Song request and Schedule. Registration is deferred to the
-`load` event so it never competes with the hero for main-thread time.
+serves an offline document that still identifies the station. The static
+`public/manifest.webmanifest` provides install shortcuts for Listen live, Song request and
+Schedule. Registration is deferred to the `load` event so it never competes with the hero for
+main-thread time.
 
 ---
 

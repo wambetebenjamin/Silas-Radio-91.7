@@ -54,7 +54,8 @@ exit=0
 | `/news/[slug]` | SSG ×3 + ISR 120 s | — |
 | `/podcasts`, `/advertise`, `/contests`, `/contact`, `/register` | static | — |
 | `/legal/privacy-policy`, `/legal/terms`, `/legal/cookie-policy` | static | — |
-| `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest` | generated | — |
+| `/sitemap.xml`, `/robots.txt` | generated | — |
+| `/manifest.webmanifest` | static asset | Served directly from `public/manifest.webmanifest` |
 | + 10 API routes | per-route runtime | — |
 
 Home HTML is **240,536 bytes uncompressed, 38,222 bytes over the wire with gzip** — an
