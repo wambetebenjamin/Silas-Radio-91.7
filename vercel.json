@@ -16,12 +16,6 @@
       "maxDuration": 10
     }
   },
-  "crons": [
-    {
-      "path": "/api/now-playing",
-      "schedule": "*/5 * * * *"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",

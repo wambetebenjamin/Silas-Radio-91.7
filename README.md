@@ -256,7 +256,8 @@ install shortcuts for Listen live, Song request and Schedule. Registration is de
    * **Cache policy** — immutable fonts, 7-day images, range-friendly audio, `no-store` APIs.
    * **Function config** — `/api/ws` on the Edge runtime, 30s max duration.
    * **Redirects** — `/privacy`, `/terms`, `/cookies`, `/live`, `/listen`.
-   * **A 5-minute cron** hitting `/api/now-playing` to keep metadata warm.
+   * **No cron jobs** — works on the Vercel Hobby plan. `/api/now-playing` is request-time
+     (`force-dynamic`), so every hit computes fresh metadata; no scheduled warm-up is required.
 4. Post-deploy checks: `/api/ws?probe=1`, `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`.
 
 ---
