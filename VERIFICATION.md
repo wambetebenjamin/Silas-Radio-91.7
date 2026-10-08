@@ -244,11 +244,12 @@ Font delivery was verified over HTTP: `Now-Regular.woff` responds `200` with
 
 ## 10. Deployment checks to repeat on Vercel
 
-The sandbox cannot reproduce Vercel's edge network, KV or cron. After the first deploy:
+The sandbox cannot reproduce Vercel's edge network, KV or WebSocket upgrade. After the first deploy:
 
 1. `curl -s $URL/api/ws?probe=1` → expect `websocketUpgradeSupported:false` and a live SSE stream.
 2. `curl -sI $URL/` → confirm the security headers from `vercel.json` (HSTS, CSP, `X-Frame-Options`).
-3. `curl -s $URL/api/now-playing` → confirm the 5-minute cron is refreshing metadata.
+3. `curl -s $URL/api/now-playing` → confirm live/demo metadata is returned (computed per request;
+   no cron job is configured).
 4. Run Lighthouse (mobile) and axe on `/` with the live stream playing — the two checks the
    sandbox cannot do (real animation + audio).
 5. Confirm `/sitemap.xml` lists every presenter URL and all news slugs.
