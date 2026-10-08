@@ -5,10 +5,6 @@
   "installCommand": "npm install",
   "regions": ["fra1"],
   "functions": {
-    "src/app/api/ws/route.ts": {
-      "runtime": "edge",
-      "maxDuration": 30
-    },
     "src/app/api/now-playing/route.ts": {
       "maxDuration": 10
     },
