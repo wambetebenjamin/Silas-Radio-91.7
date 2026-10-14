@@ -1,44 +1,28 @@
 import type { MetadataRoute } from 'next';
-
 import { SITE, PRESENTERS } from '@/lib/site';
+import { SHOWS, EPISODES } from '@/lib/programming';
 import { getAllNews } from '@/lib/news';
 
-/**
- * Dynamic sitemap: static routes + presenters + every MDX news article.
- * Regenerated with the news revalidation window.
- */
 export const revalidate = 120;
 
+/** Every entry is a real canonical page, never a hash or presenter query alias. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
-  const news = await getAllNews();
-
-  const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${SITE.url}/`, lastModified: now, changeFrequency: 'hourly', priority: 1 },
-    { url: `${SITE.url}/#schedule`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${SITE.url}/podcasts`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${SITE.url}/news`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
-    { url: `${SITE.url}/advertise`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE.url}/contests`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE.url}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE.url}/legal/privacy-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${SITE.url}/legal/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${SITE.url}/legal/cookie-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+  const pages = [
+    '/', '/about', '/shows', '/schedule', '/presenters', '/podcasts', '/news', '/listen',
+    '/studio', '/request', '/newsletter', '/advertise', '/contests', '/contact',
+    '/legal/privacy-policy', '/legal/terms', '/legal/cookie-policy',
   ];
-
-  const presenterRoutes: MetadataRoute.Sitemap = PRESENTERS.map((presenter) => ({
-    url: `${SITE.url}/?presenter=${presenter.slug}`,
-    lastModified: now,
-    changeFrequency: 'weekly' as const,
-    priority: 0.5,
+  const staticRoutes: MetadataRoute.Sitemap = pages.map((path) => ({
+    url: `${SITE.url}${path}`, changeFrequency: path === '/schedule' ? 'daily' : 'weekly',
+    priority: path === '/' ? 1 : path.startsWith('/legal') ? 0.3 : 0.8,
   }));
-
-  const newsRoutes: MetadataRoute.Sitemap = news.map((article) => ({
-    url: `${SITE.url}/news/${article.slug}`,
-    lastModified: new Date(article.date),
-    changeFrequency: 'weekly' as const,
-    priority: 0.7,
+  const detailRoutes: MetadataRoute.Sitemap = [
+    ...SHOWS.map((show) => `/shows/${show.id}`),
+    ...PRESENTERS.map((person) => `/presenters/${person.slug}`),
+    ...EPISODES.map((episode) => `/podcasts/${episode.slug}`),
+  ].map((path) => ({ url: `${SITE.url}${path}`, changeFrequency: 'monthly', priority: 0.7 }));
+  const newsRoutes: MetadataRoute.Sitemap = (await getAllNews()).map((article) => ({
+    url: `${SITE.url}/news/${article.slug}`, lastModified: new Date(article.date), changeFrequency: 'monthly', priority: 0.7,
   }));
-
-  return [...staticRoutes, ...presenterRoutes, ...newsRoutes];
+  return [...staticRoutes, ...detailRoutes, ...newsRoutes];
 }

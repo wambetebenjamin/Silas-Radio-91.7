@@ -4,10 +4,11 @@ import { z } from 'zod';
 const kenyanPhone = z
   .string()
   .trim()
-  .regex(
+  .transform((value) => value.replace(/[\s()-]/g, ''))
+  .pipe(z.string().regex(
     /^(?:\+?254|0)(?:7|1)\d{8}$/,
     'Enter a valid Kenyan phone number, e.g. 0712 345 678',
-  );
+  ));
 
 export const songRequestSchema = z.object({
   name: z.string().trim().min(2, 'Tell us your name').max(80),

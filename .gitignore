@@ -45,3 +45,7 @@ design-source/_upload/
 
 # generated intermediates (Rockville TTF for icon rendering)
 .cache/
+
+# browser-test artifacts (not shipped)
+playwright-report/
+test-results/

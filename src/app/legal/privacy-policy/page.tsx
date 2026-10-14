@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { LEGAL, SITE } from '@/lib/site';
-import { SectionHead } from '@/components/SectionHead';
+import { PageHero } from '@/components/site/PageHero';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -22,9 +22,9 @@ const SECTIONS = [
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="spad" style={{ background: '#fff' }}>
+    <div className="spad legal-page" style={{ background: '#fff' }}>
       <div className="sr-container">
-        <SectionHead as="h1" eyebrow="Legal" ghost="PRIVACY" title="Privacy Policy" />
+        <PageHero eyebrow="Legal · Current website policies" title="Privacy Policy" description="The terms and policies that apply when you use the Silas Radio 91.7 website and services." breadcrumb="Privacy Policy" />
         <p className="sr-updated">
           Last updated {new Date(LEGAL.privacyUpdated).toLocaleDateString('en-KE', { dateStyle: 'long' })} · Data
           controller: {SITE.name}, {SITE.studioAddress.full}

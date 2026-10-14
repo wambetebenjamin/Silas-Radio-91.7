@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { LEGAL, PACKAGES, SITE } from '@/lib/site';
-import { SectionHead } from '@/components/SectionHead';
+import { PageHero } from '@/components/site/PageHero';
 
 export const metadata: Metadata = {
   title: 'Terms and Conditions',
@@ -21,9 +21,9 @@ const SECTIONS = [
 
 export default function TermsPage() {
   return (
-    <div className="spad" style={{ background: '#fff' }}>
+    <div className="spad legal-page" style={{ background: '#fff' }}>
       <div className="sr-container">
-        <SectionHead as="h1" eyebrow="Legal" ghost="TERMS" title="Terms and Conditions" />
+        <PageHero eyebrow="Legal · Current website policies" title="Terms and Conditions" description="The terms and policies that apply when you use the Silas Radio 91.7 website and services." breadcrumb="Terms and Conditions" />
         <p className="sr-updated">
           Last updated {new Date(LEGAL.termsUpdated).toLocaleDateString('en-KE', { dateStyle: 'long' })} · Applies to{' '}
           {SITE.url}, the {SITE.frequency} broadcast and every Silas Radio 91.7 podcast feed.

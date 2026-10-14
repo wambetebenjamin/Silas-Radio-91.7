@@ -1,3 +1,4 @@
+import { CONTESTS, contestIsOpen } from '@/lib/contests';
 import { NextResponse } from 'next/server';
 import { KEYS, saveRecord, storageConfigured } from '@/lib/db';
 import { sendStudioMail, studioWhatsappLink } from '@/lib/mailer';
@@ -33,6 +34,13 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
+
+  if (!CONTESTS.some((contest) => contest.slug === data.contestSlug)) {
+    return NextResponse.json({ ok: false, error: 'Contest not found.' }, { status: 404 });
+  }
+  if (!contestIsOpen(data.contestSlug)) {
+    return NextResponse.json({ ok: false, error: 'Entries for this contest are closed.' }, { status: 410 });
+  }
 
   const captcha = await verifyRecaptcha(
     data.token ?? data.v2Token,

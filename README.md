@@ -4,10 +4,16 @@ Community radio for Nairobi: live stream, shows, presenters, podcasts, local new
 contests and advertising. Built as a Next.js 15.1.x App Router application with
 TypeScript.
 
-**Design source:** the uploaded ZIP was recovered, unpacked and fully documented
-before any code was written — see **[DESIGN-INSPECTION.md](./DESIGN-INSPECTION.md)**
-and **[EFFECTS.md](./EFFECTS.md)**. Every colour, font, radius, shadow and timing
-in this build traces back to that source or is an explicitly documented override.
+The site was originally a single very long homepage. It is now a real multi-page station site:
+shows, presenters, schedule, podcasts, stories, listening room, request, studio, newsletter,
+advertising, contests and contact each have their own routes, with detail pages for shows,
+presenters, audio previews and articles. **[docs/DESIGN.md](./docs/DESIGN.md)** maps every page,
+shows which DJoz template page each route derives from, and lists the deliberate overrides.
+
+**Design source:** the uploaded ZIP was recovered, unpacked and documented before any code was
+written — see **[DESIGN-INSPECTION.md](./DESIGN-INSPECTION.md)** (archive forensics and source
+inventory) and **[EFFECTS.md](./EFFECTS.md)** (note: the first pass's 31 effects were retired when
+the site was split into pages).
 
 ---
 
@@ -31,7 +37,10 @@ npm run dev                    # http://localhost:3000
 | `npm run verify:fonts:hashes` | Same, but exits non-zero on any divergence (use in CI) |
 | `npm run verify:images` | Check every shipped photo has a credit row in `image-credits.md` |
 | `npm run verify` | typecheck + font hashes + image credits + lint — the pre-push sweep |
-| `npm run audit:rendered` | Accessibility/structure audit of the rendered HTML (start the server first) |
+| `npm test` | Playwright browser suite (routes, navigation, filters, schedule tabs, forms, audio persistence, axe) — needs a build + running server |
+| `npm run test:install` | Download the Playwright Chromium build (skipped in minimal containers where a system Chromium is used) |
+| `npm run audit:rendered` | Static audit of the server-rendered HTML across all 23 routes (`npm run audit:rendered -- http://127.0.0.1:3100`) |
+| `node scripts/capture-screenshots.mjs` | Documentation screenshots into `docs/screenshots/` (uses `PLAYWRIGHT_CHROMIUM_PATH`/`BASE_URL`) |
 | `python3 scripts/generate-assets.py` | Regenerates the PWA icons and the EFFECT-31 sprite sheet |
 
 ---
@@ -46,9 +55,8 @@ npm run dev                    # http://localhost:3000
 | TypeScript | 5.7.2 | strict mode |
 | Tailwind CSS | 3.4.17 | utilities only — the design system is CSS custom properties |
 | PostCSS / Autoprefixer | 8.4.49 / 10.4.20 | |
-| three | 0.172.0 | EFFECT-01 hero, dynamically imported |
-| wavesurfer.js | 7.8.11 | player waveform |
-| Zustand | 5.0.2 | persistent player state |
+| Zustand | 5.0.2 | transient player state (no persistence of playback) |
+| @playwright/test / @axe-core/playwright | 1.56.1 / 4.11.0 | browser tests and accessibility checks |
 | lucide-react | **0.468.0** | the only icon set, as specified |
 | @fontsource/rajdhani | 5.1.0 | self-hosted Rajdhani 400/500/600/700 |
 | zod | 3.24.1 | request validation |
@@ -67,21 +75,24 @@ Values are never committed. `.env.example` lists every name.
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | recommended | canonical URLs, OG, sitemap, JSON-LD |
 | `NEXT_PUBLIC_STREAM_URL` | recommended | live stream endpoint for the player |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` / `WHATSAPP_NUMBER` | spec-mandated | floating button, player shortcut, studio notifications |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` / `WHATSAPP_NUMBER` | optional | WhatsApp links on the contact/request pages and studio notifications |
 | `NEXT_PUBLIC_GOOGLE_MAPS_EMBED` | optional | contact section map |
 | `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` / `RECAPTCHA_SITE_KEY` | optional | client reCAPTCHA v3 |
 | `RECAPTCHA_SECRET_KEY` | **server only** | `/api/captcha` and every protected endpoint |
 | `KV_REST_API_URL` / `KV_REST_API_TOKEN` | optional | song requests, contest entries, newsletter, listener count (Upstash names also accepted) |
 | `SMTP_HOST` `SMTP_PORT` `SMTP_USER` `SMTP_PASS` | optional | Nodemailer transport |
 | `STUDIO_NOTIFICATION_EMAIL`, `NEWSLETTER_FROM`, `ADVERTISING_EMAIL` | optional | mail routing |
-| `NOW_PLAYING_API_URL` | optional | real playout metadata; falls back to a deterministic demo rotation |
+| `NOW_PLAYING_API_URL` | optional | real playout metadata; without it `/api/now-playing` reports the scheduled programme with `source: "schedule"` or `"demo"` and never invents a song |
 | `STUDIO_API_TOKEN` | optional | guards the studio-side `GET /api/request` and `PUT /api/schedule` |
 | `SOCKET_URL` | optional | reported by `/api/ws?probe=1` when an external socket service exists |
 
-**Everything degrades without configuration.** With no KV credentials, writes go to an
-in-process buffer and the API answers `storage: "local-buffer"` instead of failing. With no
-reCAPTCHA secret, verification is bypassed but flagged (`captchaBypassed: true`,
-`reason: "RECAPTCHA_SECRET_KEY not configured"`) so the studio can see the difference.
+**Everything degrades honestly without configuration.** With no KV credentials, writes go to an
+in-process buffer and the API answers `storage: "local-buffer"`. With no reCAPTCHA secret,
+verification is bypassed but flagged (`captchaBypassed: true`). With neither KV nor SMTP the
+response also carries `persisted: false` / `notified: false`, and the forms tell the listener that
+the message has **not** reached the studio and offer email/WhatsApp instead. With no
+`NEXT_PUBLIC_STREAM_URL` the player uses the archive's sample audio and every screen that plays it
+says so.
 
 ---
 
@@ -122,22 +133,34 @@ when the probe reports one — the store and UI contract do not change.
 
 | Route | Rendering | Notes |
 | --- | --- | --- |
-| `/` | ISR 30s | Hero, presence board, scrollytelling, schedule + studio widget, presenters, gallery, AR tour, song request, advertising, contests, news teaser, newsletter, contact, podcast strip |
-| `/news` | ISR 120s | MDX index with lead story |
-| `/news/[slug]` | SSG + ISR 120s | Per-article OG + `NewsArticle` JSON-LD |
-| `/podcasts` | static | `PodcastSeries` JSON-LD per show |
-| `/advertise` | static | Rate card, media kit, packages, enquiry form |
-| `/contests` | static | Active contest + entry form, past winners |
-| `/contact` | static | Contact form, address, map, WhatsApp, advertising enquiry |
-| `/register` | static, `noindex` | Account registration (reCAPTCHA v3) |
-| `/legal/privacy-policy` | static | Listening Data, Request Data, Newsletter Data, Analytics, Your Rights, Contact |
-| `/legal/terms` | static | Contest Terms, Advertising Terms, Listener Terms, Content Ownership, Governing Law (Kenya) |
-| `/legal/cookie-policy` | static | Necessary / Functional / Analytics categories |
-| `/sitemap.xml` | dynamic | Static routes + presenters + every news article |
-| `/robots.txt` | static-ish | Allows all content, disallows `/api/` and `/register` |
-| `/manifest.webmanifest` | static | PWA manifest with three shortcuts (`public/manifest.webmanifest`) |
-| `not-found` | — | "This broadcast channel was not found." + Return to Live Radio |
-| `error` / `global-error` | — | "We are off-air temporarily. Back soon." + Try Again + WhatsApp number |
+| `/` | ISR 30s | Hero, live frequency strip, featured shows, audio previews, latest stories, newsletter |
+| `/about` | static | Station story, values, presenter teasers |
+| `/shows` | dynamic (filters) | All ten programmes with category filter + search, URL-addressable |
+| `/shows/[slug]` | SSG | Show detail: description, days/times, host panel, related shows |
+| `/schedule` | dynamic | Seven day tabs (arrow-key operable), gap-filling "Silas Selection", on-air marker |
+| `/presenters` | static | Presenter index |
+| `/presenters/[slug]` | SSG | Bio, hosted shows, shout-out CTA |
+| `/podcasts` | dynamic (filters) | Listening library of clearly labelled sample-audio previews |
+| `/podcasts/[slug]` | SSG | Preview page with an explicit "not an episode" notice |
+| `/news` | ISR 120s | Community-desk index with lead story, filters and search |
+| `/news/[slug]` | SSG + ISR 120s | MDX article, per-article OG + `NewsArticle` JSON-LD |
+| `/listen` | ISR 30s | Listening room: what's on now from the schedule, demo notice, tuning FAQ |
+| `/studio` | static | Studio gallery and production-desk explainer |
+| `/request` | static | Song request + dedication form |
+| `/newsletter` | static | Weekly playlist signup |
+| `/advertise` | dynamic | Packages, process, enquiry form (`?package=` preselects a package) |
+| `/contests` | static | Past giveaway shown as closed — no entry form |
+| `/contact` | static | Contact details + message form |
+| `/register` | static, `noindex` | Accounts not open; no password collection |
+| `/legal/privacy-policy`, `/legal/terms`, `/legal/cookie-policy` | static | Station policies |
+| `/sitemap.xml` | dynamic | Every real route, presenter, show, preview and article — no hashes or query aliases |
+| `/robots.txt` | static | Allows content, disallows `/api/` and `/register` |
+| `/manifest.webmanifest` | static | PWA manifest with three shortcuts |
+| `not-found`, `error`, `global-error` | — | Off-air and 404 states in the new visual system |
+| `next.config.mjs` redirects | — | Legacy `*.html` template URLs, `/live`, `/privacy`, `/terms`, `/cookies` |
+
+Old one-page bookmarks still work: a small client shim maps the former `#schedule`, `#presenters`,
+`#request`, `#gallery` … anchors and `?presenter=<slug>` links onto the new routes.
 
 ---
 
@@ -191,58 +214,59 @@ The hero gradient's ramp was **pixel-sampled from the source artwork** (`img/her
 
 ---
 
-## 8. The 31 effects
+## 8. Motion and interaction
 
-See **[EFFECTS.md](./EFFECTS.md)** for the full mapping of all 31 effects (and all 31
-reduced-motion fallbacks) to the file and line that implements them. Summary of the
-architecture:
+The first pass's 31 scripted effects were retired with the move to a multi-page site; the note in
+**[EFFECTS.md](./EFFECTS.md)** lists the motion that remains (type-led hero reveal, card hovers,
+day-tab switching, status pulse) and the single reduced-motion block that shortens all of it.
 
-* **Server-rendered, no JavaScript required** for: navbar, hero copy and CTAs, schedule,
-  presenters, gallery copy, packages, news, legal pages, footer.
-* **Progressive effects** load dynamically (`three` and `wavesurfer.js` are separate chunks,
-  357 kB and 333 kB, so they never sit in the 149 kB first-load bundle).
-* Every effect reads `useReducedMotion()` and renders its static state rather than a faster
-  animation.
+* **Server-rendered, no JavaScript required** for: header, hero copy and CTAs, shows, schedule,
+  presenters, story list, packages, legal pages, footer.
+* **Interactive pieces only where they earn it** — filters, day tabs, the audio player and forms.
+* `three` and `wavesurfer.js` are gone from `package.json`; the player is a native `<audio>`.
 
 ---
 
 ## 9. Accessibility
 
-Audited with `node scripts/audit-rendered.mjs` against the running server — **12/12 routes clean**:
-one `<h1>` per page, `alt` on every image, accessible names on every button and link,
-`<label for>` wiring on every field, skip link, `lang="en-KE"`, and live regions where
-content updates.
+Two independent checks:
 
-Also implemented: visible focus rings that stay visible over the glass nav, 48×48 minimum touch
-targets, `role="status"` announcements (preloader completion, listener count, form results,
-page-flip page numbers), `aria-busy` on the schedule container, `aria-hidden` on all decorative
-art, and form errors wired through `aria-invalid` + `role="alert"`.
+* `node scripts/audit-rendered.mjs` — static audit of the server-rendered HTML for all 23 routes:
+  one `<h1>` per page, `alt` on every image, accessible names on every button and link,
+  label wiring (including wrapping `<label>`) on every field, skip link, `lang="en-KE"` and live
+  regions. Current status: **0 pages with structural problems**.
+* `npm test` — Playwright + `@axe-core/playwright` on desktop and mobile viewports, asserting no
+  serious or critical WCAG 2.1 A/AA violations on `/`, `/schedule`, `/listen`, `/request`, `/contests`
+  and checking headings, navigation landmarks and the player element on every route.
+
+Also implemented: visible focus rings, ≥44px touch targets, `role="status"` announcements for form
+results and schedule updates, `aria-current="page"` on the active nav item, a focus-trapping cookie
+dialog, keyboard-operable schedule tabs, and form errors wired through `aria-invalid` +
+`aria-describedby`.
 
 ---
 
 ## 10. Responsive behaviour
 
-Verified at the five specified breakpoints: **1440 / 1024 / 768 / 390 / 320 px**.
+Checked in a browser at **1440 / 1366 / 1024 / 768 / 414 / 390 / 320 px**.
 
-* Audio player: compact on mobile (`--player-h-compact: 72px`), full on desktop; **the
-  waveform is hidden below 480px** while the scrub control remains.
-* The player never overlaps CTAs: `body` reserves the player's height as bottom padding, and
-  every page's last section carries extra room on small screens (`.sr-page-end`).
-* Gallery: 3 columns at ≥1024px, **2 columns at 768px, 1 column on mobile**.
-* Schedule: horizontal scroll-snap rail on desktop and mobile; plain wrapped grid under
-  reduced motion.
-* All interactive elements meet the 48×48px minimum, including the rail tabs, icon buttons and
-  the WhatsApp shortcut.
+* Header: full navigation with an "Explore" dropdown above 1000px, hamburger drawer below it.
+* Grids: 3 columns → 2 → 1; schedule rows stack with the time badge above the copy on phones.
+* Player: fixed bottom bar, compresses to essential controls on small screens; `body` reserves
+  `--player-height` plus the safe-area inset so nothing is ever hidden behind it.
+* Forms: single-column fields on mobile, full-width submit buttons.
+* `npm test` runs the full suite on both a 1366×900 desktop and a Pixel 5 viewport.
 
 ---
 
 ## 11. PWA and offline player fallback
 
-`public/sw.js` caches the app shell, keeps the last three audio responses in a media cache and
-serves an offline document that still identifies the station. The static
+`public/sw.js` (cache version `silas-v2`) caches the offline shell and a bounded set of static
+assets, and serves a station-branded offline document. It deliberately **never** caches audio
+requests, range responses, `/api/*` responses or Next.js RSC payloads, so it can never serve a
+truncated stream or stale page data as if it were current. The static
 `public/manifest.webmanifest` provides install shortcuts for Listen live, Song request and
-Schedule. Registration is deferred to the `load` event so it never competes with the hero for
-main-thread time.
+Schedule. Registration happens in production only, deferred to the `load` event.
 
 ---
 
@@ -256,7 +280,8 @@ main-thread time.
      tour, microphone denied), COOP and a CSP scoped to self + Google (reCAPTCHA + Maps).
    * **Cache policy** — immutable fonts, 7-day images, range-friendly audio, `no-store` APIs.
    * **Function config** — `/api/ws` on the Edge runtime, 30s max duration.
-   * **Redirects** — `/privacy`, `/terms`, `/cookies`, `/live`, `/listen`.
+   * **Redirects** — legacy `.html` template URLs, `/live` → `/listen`, `/privacy`, `/terms`,
+     `/cookies` (see §5). `/listen` is a real page now, so `vercel.json` no longer redirects it.
    * **No cron jobs** — works on the Vercel Hobby plan. `/api/now-playing` is request-time
      (`force-dynamic`), so every hit computes fresh metadata; no scheduled warm-up is required.
 4. Post-deploy checks: `/api/ws?probe=1`, `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`.
@@ -265,9 +290,11 @@ main-thread time.
 
 ## 13. Testing and verification
 
-`npm run build` passes (26 routes generated), `tsc --noEmit` is clean and the rendered audit is
-clean. **[VERIFICATION.md](./VERIFICATION.md)** records the exact commands and outputs, including
-the API contract tests, the font integrity run and the accessibility matrix.
+`npm run verify` (typecheck → font hashes → image credits → lint) passes, `npm run build` generates
+**52 routes**, `npm test` runs the Playwright suite on desktop and mobile (69 passing, 1 skipped by
+design) and `npm run audit:rendered` reports **0 pages with structural problems** across 23 routes.
+**[VERIFICATION.md](./VERIFICATION.md)** records the exact commands and their output, and
+`docs/screenshots/` holds captured desktop/mobile views of the new pages.
 
 ---
 
@@ -275,8 +302,12 @@ the API contract tests, the font integrity run and the accessibility matrix.
 
 ```
 ├── DESIGN-INSPECTION.md      ← the ZIP forensics + full design-source inventory
-├── EFFECTS.md                ← all 31 effects + 31 reduced-motion fallbacks, mapped
+├── EFFECTS.md                ← archive note on the retired first-pass effects
 ├── VERIFICATION.md           ← test evidence
+├── docs/DESIGN.md            ← page map, DJoz → route mapping, overrides, honesty rules
+├── docs/screenshots/         ← captured desktop/mobile views
+├── tests/site.spec.ts        ← Playwright suite (routes, nav, filters, forms, audio, axe)
+├── playwright.config.ts      ← desktop + mobile projects, webServer wiring
 ├── image-credits.md          ← every photo, its Pexels/Unsplash source and subject coverage
 ├── content/news/*.mdx        ← newsroom articles
 ├── design-source/            ← the recovered template (heavy folders git-ignored)
@@ -288,7 +319,10 @@ the API contract tests, the font integrity run and the accessibility matrix.
 ├── scripts/                  ← asset generation, font verification, rendered audit
 └── src/
     ├── app/                  ← routes, API handlers, globals.css, manifest, sitemap, robots
-    ├── components/           ← 34 components, one per effect or page section
+    ├── components/           ← shared shell (nav, footer, player, consent) + site/ components
+    ├── hooks/                ← reduced motion, viewport, current-broadcast clock
+    ├── lib/                  ← station data, programming/schedule logic, forms, KV, mailer
+    └── store/                ← transient Zustand player store
     ├── hooks/                ← reduced motion, scrollers, viewport, listeners
     ├── lib/                  ← site content, KV, reCAPTCHA, mailer, news, validation
     └── store/                ← Zustand player store
@@ -303,5 +337,6 @@ the API contract tests, the font integrity run and the accessibility matrix.
 * Photography: **Pexels** and **Unsplash** only — no AI images; full list in
   [image-credits.md](./image-credits.md).
 * Icons: **Lucide 0.468.0** only.
-* Audio in `public/audio/stream/`: demo tracks taken from the design source's `music-files/`,
-  used here as placeholder stream audio.
+* Audio in `public/audio/stream/`: sample music taken from the design source's `music-files/`.
+  It is **demo audio, not station recordings or a live broadcast**, and the UI says so wherever
+  it is played (the player label, `/listen`, `/podcasts` and each preview page).

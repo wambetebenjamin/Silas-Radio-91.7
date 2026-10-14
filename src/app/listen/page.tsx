@@ -1,0 +1,15 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowUpRight, Info } from 'lucide-react';
+import { SITE } from '@/lib/site';
+import { pageMetadata } from '@/lib/metadata';
+import { Breadcrumbs, SectionHeading } from '@/components/site/PageHero';
+import { ListeningNow, FrequencyStrip } from '@/components/site/OnAir';
+import { LivePlayButton } from '@/components/site/PlayButtons';
+
+export const metadata = pageMetadata('Listen live', 'Tune in to Silas Radio 91.7 from Nairobi. Open the listening room, see what’s on the schedule, and take the station with you.', '/listen');
+export const revalidate = 30;
+export default function ListenPage() {
+  const now = new Date().toISOString();
+  return <><section className="listen-room"><div className="container"><Breadcrumbs items={[{ label: 'Listen live' }]} /><div className="listen-layout"><div className="listen-art"><Image src="/images/studio/broadcast-mic-green.jpg" alt="Microphone and headphones in the listening room" fill priority sizes="(max-width: 760px) 100vw, 45vw" /><div className="listen-art__frequency"><strong>91.7</strong><p>YOUR CITY. YOUR SOUND.</p></div></div><div className="listen-copy"><p className="eyebrow">From Nairobi, with love</p><h1>You’re in good company.</h1><p>Turn us up, settle in, and take a little Nairobi with you. Your audio keeps playing as you explore the site.</p><ListeningNow initialTime={now} /><div className="button-row"><LivePlayButton /><Link href="/request" className="button button--ghost">Make a request <ArrowUpRight size={16} aria-hidden="true" /></Link></div>{!SITE.streamConfigured && <div className="notice"><Info size={17} aria-hidden="true" /><p><strong>You’re hearing a demo.</strong> The live broadcast URL has not been configured. Pressing play starts sample music, not the scheduled show.</p></div>}</div></div></div></section><FrequencyStrip initialTime={now} /><section className="section"><div className="container"><SectionHeading eyebrow="A little help with tuning in" title="Make yourself at home." /><div className="faq-list"><details><summary>Can I keep listening while I browse?</summary><p>Yes. The player at the bottom of the page stays active as you move between shows, stories and presenter pages. Opening a separate tab or reloading the site requires another press of play.</p></details><details><summary>Where can I find programme times?</summary><p>Visit the <Link className="underline" href="/schedule">weekly schedule</Link>. All times are East Africa Time, UTC+3, so listeners in other time zones can plan ahead.</p></details><details><summary>The player is silent. What should I check?</summary><p>Press play, check the player’s mute button and your device volume, and confirm your internet connection. If audio is unavailable, the player will show a message and you can press play to retry.</p></details><details><summary>How can I request a song?</summary><p>Use the <Link className="underline" href="/request">song request page</Link> or message the studio on WhatsApp. Include the artist, song title and anyone you’d like to dedicate it to.</p></details></div></div></section></>;
+}

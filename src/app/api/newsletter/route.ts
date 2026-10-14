@@ -64,7 +64,8 @@ export async function POST(request: Request) {
     return NextResponse.json({
       ok: true,
       duplicate: true,
-      message: 'You are already on the list — the next playlist drops on Friday.',
+      persisted: existing.source === 'kv',
+      message: 'A signup request for this email is already on file. Please contact the studio if you need help.',
     });
   }
 
@@ -76,7 +77,7 @@ export async function POST(request: Request) {
     captchaScore: captcha.score,
   });
 
-  await sendStudioMail({
+  const mail = await sendStudioMail({
     subject: `Newsletter signup: ${data.email}`,
     text: `New newsletter subscriber\nEmail: ${data.email}\nGenre preference: ${data.genre}`,
   });
@@ -86,7 +87,8 @@ export async function POST(request: Request) {
     id: stored.data?.id,
     persisted: stored.source === 'kv',
     storage: storageConfigured ? 'kv' : 'local-buffer',
-    message: 'You are subscribed. Weekly playlist and community news, every Friday.',
+    notified: mail.ok,
+    message: 'Your signup request has been received. The studio will confirm your subscription.',
   });
 }
 

@@ -17,7 +17,10 @@
     "verify:fonts:hashes": "node scripts/verify-fonts.mjs --strict",
     "verify:images": "node scripts/verify-images.mjs",
     "verify:images:strict": "node scripts/verify-images.mjs --strict",
-    "audit:rendered": "node scripts/audit-rendered.mjs"
+    "audit:rendered": "node scripts/audit-rendered.mjs",
+    "test": "playwright test",
+    "test:install": "playwright install chromium",
+    "capture:screenshots": "node scripts/capture-screenshots.mjs"
   },
   "dependencies": {
     "@fontsource/rajdhani": "5.1.0",
@@ -29,12 +32,12 @@
     "nodemailer": "6.9.16",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "three": "0.172.0",
-    "wavesurfer.js": "7.8.11",
     "zod": "3.24.1",
     "zustand": "5.0.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.56.1",
     "@types/node": "22.10.2",
     "@types/nodemailer": "6.4.17",
     "@types/react": "19.0.2",

@@ -1,66 +1,12 @@
-import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import { Ticket } from 'lucide-react';
+import { ArrowUpRight, Ticket } from 'lucide-react';
+import { PageHero } from '@/components/site/PageHero';
+import { CONTESTS } from '@/lib/contests';
+import { pageMetadata } from '@/lib/metadata';
 
-import { SITE } from '@/lib/site';
-import { ACTIVE_CONTEST, Contest } from '@/components/Contest';
-import { SectionHead } from '@/components/SectionHead';
-
-export const metadata: Metadata = {
-  title: 'Contests and giveaways',
-  description:
-    'Win vinyl, studio visits, festival tickets and airtime with Silas Radio 91.7 contests. Enter online — winners are drawn live on air.',
-  alternates: { canonical: '/contests' },
-  openGraph: {
-    title: 'Contests and giveaways | Silas Radio 91.7',
-    description: 'Enter the current Nairobi contest and hear the draw live on 91.7 FM.',
-    type: 'website',
-    url: `${SITE.url}/contests`,
-  },
-};
-
+export const metadata = pageMetadata('Contests & giveaways', 'Stay up to date with Silas Radio 91.7 giveaways, read the contest rules and explore past prizes.', '/contests');
 export default function ContestsPage() {
-  return (
-    <div style={{ background: '#fff' }}>
-      <section className="spad pb-0">
-        <div className="sr-container">
-          <SectionHead as="h1" eyebrow="Giveaways" ghost="CONTESTS" title="Contests and giveaways" />
-          <p className="sr-lead">
-            Every contest is run on air and online. Entries are verified with reCAPTCHA v3, one entry
-            per phone number, and the winner is always announced live before we call them.
-          </p>
-        </div>
-      </section>
-
-      {/* Active contest card with countdown + entry form */}
-      <Contest />
-
-      <section className="pb-16 sr-container">
-        <SectionHead eyebrow="Closed" ghost="PAST" title="Recently closed contests" />
-        <ul className="grid gap-4 md:grid-cols-3">
-          {[
-            { title: 'Sheng Express mixtape drop', winner: 'Announced 12 September 2025', prize: 'Custom mixtape + studio shout-out' },
-            { title: 'Nairobi Nights listening pack', winner: 'Announced 3 August 2025', prize: 'Headphones + vinyl bundle' },
-            { title: 'Diaspora Window airtime', winner: 'Announced 20 July 2025', prize: 'One year of 91.7 merchandise' },
-          ].map((item) => (
-            <li key={item.title}>
-              <article className="sr-card p-5 h-full">
-                <span className="sr-badge w-fit">
-                  <Ticket size={12} aria-hidden="true" /> Closed
-                </span>
-                <h3 className="sr-card__title mt-2">{item.title}</h3>
-                <p className="mb-1">{item.prize}</p>
-                <p className="sr-meta mb-0">{item.winner}</p>
-              </article>
-            </li>
-          ))}
-        </ul>
-
-        <p className="sr-meta mt-6">
-          Contest rules and eligibility: <Link className="underline" href="/legal/terms#contest-terms">contest terms</Link>.
-          Current contest closes {new Date(ACTIVE_CONTEST.deadline).toLocaleDateString('en-KE', { timeZone: 'Africa/Nairobi', dateStyle: 'long' })}.
-        </p>
-      </section>
-    </div>
-  );
+  const contest = CONTESTS[0];
+  return <><PageHero eyebrow="A little extra for our listening family" title="Good things come to listeners." description="Music, memories and a reason to keep your radio close. Find out what’s happening with giveaways on your frequency." breadcrumb="Contests & giveaways" /><section className="section"><div className="container"><div className="notice"><Ticket size={20} aria-hidden="true" /><p><strong>No contests are accepting entries right now.</strong> We’ll share the next giveaway on air and through the weekly playlist.</p></div><article className="contest-feature"><div className="contest-feature__image"><Image src="/images/studio/turntable-closeup.jpg" alt="A vinyl record on a turntable" fill sizes="(max-width: 760px) 100vw, 50vw" /></div><div className="contest-feature__copy"><span className="tag tag--lime">From the archive · Entries closed</span><h2>{contest.title}</h2><p>{contest.prize}</p><p>Entries closed on 5 December 2025 at 21:00 EAT. This giveaway is kept here for reference; we are not collecting new entries.</p><Link className="text-link" href="/legal/terms#contest-terms">Read the contest terms <ArrowUpRight size={16} aria-hidden="true" /></Link></div></article></div></section><section className="community-band"><div className="container"><div><h2>Don’t miss the next good thing.</h2><p>Join the weekly playlist for station news and upcoming giveaways.</p></div><Link href="/newsletter" className="button button--primary">Keep me in the loop <ArrowUpRight size={16} aria-hidden="true" /></Link></div></section></>;
 }

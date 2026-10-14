@@ -17,7 +17,8 @@ export const SITE = {
   city: 'Nairobi',
   country: 'Kenya',
   streamUrl:
-    process.env.NEXT_PUBLIC_STREAM_URL ?? '/audio/stream/demo-01.mp3',
+    process.env.NEXT_PUBLIC_STREAM_URL || '/audio/stream/demo-01.mp3',
+  streamConfigured: Boolean(process.env.NEXT_PUBLIC_STREAM_URL),
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '254112272061',
   whatsappDisplay: '+254 112 272 061',
   /** Spec-mandated deep link used by the floating button and the player shortcut. */
@@ -425,29 +426,10 @@ export function toMinutes(hhmm: string): number {
  * A slot that ends at "24:00" is handled, as is the 00:00 overnight show.
  */
 export function isSlotLive(slot: ShowSlot, now: Date): boolean {
-  const day = now.toLocaleDateString('en-US', {
-    weekday: 'long',
-    timeZone: TIMEZONE,
-  }) as Day;
-  const minutes =
-    Number(
-      now.toLocaleTimeString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: TIMEZONE,
-      }).slice(0, 2),
-    ) * 60 +
-    Number(
-      now.toLocaleTimeString('en-GB', {
-        minute: '2-digit',
-        timeZone: TIMEZONE,
-      }).slice(0, 2),
-    );
-
-  const start = toMinutes(slot.start);
-  const end = toMinutes(slot.end);
-  return slot.days.includes(day) && minutes >= start && minutes < end;
+  const day = now.toLocaleDateString('en-US', { weekday: 'long', timeZone: TIMEZONE }) as Day;
+  const time = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: TIMEZONE });
+  const minutes = toMinutes(time);
+  return slot.days.includes(day) && minutes >= toMinutes(slot.start) && minutes < toMinutes(slot.end);
 }
 
 /** Human 12-hour label from 24-hour source data ("24:00" → "12:00 AM"). */

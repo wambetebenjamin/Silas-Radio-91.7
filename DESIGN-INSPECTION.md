@@ -1,5 +1,11 @@
 # Silas Radio 91.7 — Design Source Inspection Report
 
+> **Historical document.** This is the inspection report written when the ZIP was first recovered,
+> before any code existed. It still describes the archive accurately. The application that grew
+> from it was rebuilt as a multi-page site — see **[docs/DESIGN.md](./docs/DESIGN.md)** for the
+> page map, the DJoz → route mapping and the deliberate design overrides, and
+> **[EFFECTS.md](./EFFECTS.md)** for the note about the retired first-pass effects.
+
 **Status:** ZIP unpacked, fully parsed. **No application code was written before this report.**
 
 ---
