@@ -1,5 +1,5 @@
 /* Multi-page shell caching. Audio, APIs and Next.js RSC payloads are network-only. */
-const VERSION = 'silas-v2';
+const VERSION = 'silas-v3';
 const SHELL = `${VERSION}-shell`;
 const ASSETS = `${VERSION}-assets`;
 
@@ -10,7 +10,11 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('silas-') && !key.startsWith(VERSION)).map((key) => caches.delete(key)))).then(() => self.clients.claim()));
+  // Drop every cache that does not belong to this version, including workers left
+  // behind by earlier builds.
+  event.waitUntil(caches.keys()
+    .then((keys) => Promise.all(keys.filter((key) => !key.startsWith(VERSION)).map((key) => caches.delete(key))))
+    .then(() => self.clients.claim()));
 });
 
 async function remember(cacheName, request, response, limit) {
