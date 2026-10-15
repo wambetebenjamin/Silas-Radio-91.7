@@ -28,7 +28,7 @@ const memory = new Map<string, unknown[]>();
 
 export const storageConfigured = Boolean(KV_URL && KV_TOKEN);
 
-/** Minimal Upstash/Vercel KV REST client — no extra dependency needed. */
+/** Minimal Upstash/Vercel KV REST client, with no extra dependency needed. */
 async function kvCommand<T>(command: (string | number)[]): Promise<T> {
   const res = await fetch(KV_URL as string, {
     method: 'POST',

@@ -50,7 +50,7 @@ export async function sendStudioMail({ subject, text, html, replyTo, to }: MailP
     process.env.NEWSLETTER_FROM ?? 'Silas Radio 91.7 <newsletter@silasradio917.co.ke>';
 
   if (!mailer) {
-    // Nothing to send with — log for the studio operator and continue.
+    // Nothing to send with. Log for the studio operator and continue.
     console.info('[mail:skipped]', subject, text.slice(0, 240));
     return { ok: false, skipped: true, reason: 'SMTP not configured' };
   }

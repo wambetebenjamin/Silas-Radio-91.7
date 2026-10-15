@@ -23,7 +23,7 @@ export interface SubmitResult<T> {
 }
 
 export function useFormSubmit<T = { message?: string }>(action: RecaptchaAction, endpoint: string) {
-  const { execute, v2Token, requireV2, reset: resetCaptcha } = useRecaptcha();
+  const { execute, v2Token, v2Required, requireV2, reset: resetCaptcha } = useRecaptcha();
   const [result, setResult] = useState<SubmitResult<T>>({
     state: 'idle',
     message: '',
@@ -36,7 +36,11 @@ export function useFormSubmit<T = { message?: string }>(action: RecaptchaAction,
       setResult({ state: 'submitting', message: '', fields: {}, data: null });
 
       try {
-        const useV2 = options?.useV2 ?? false;
+        const useV2 = options?.useV2 ?? v2Required;
+        if (useV2 && !v2Token) {
+          setResult({ state: 'needs-v2', message: 'Complete the verification challenge, then submit again.', fields: {}, data: null });
+          return { ok: false as const, body: null };
+        }
         const token = useV2 ? v2Token ?? undefined : (await execute(action)) ?? undefined;
 
         const response = await fetch(endpoint, {
@@ -51,6 +55,8 @@ export function useFormSubmit<T = { message?: string }>(action: RecaptchaAction,
           message?: string;
           fields?: Record<string, string>;
           requiresV2Fallback?: boolean;
+          persisted?: boolean;
+          notified?: boolean;
         } & T;
 
         if (body.requiresV2Fallback && !useV2) {
@@ -76,7 +82,9 @@ export function useFormSubmit<T = { message?: string }>(action: RecaptchaAction,
 
         setResult({
           state: 'success',
-          message: body.message ?? 'Thank you — the studio has your message.',
+          message: body.persisted === false && !body.notified
+            ? 'Preview only. Your details have not been delivered to the studio. Please use email or WhatsApp instead.'
+            : body.message ?? 'Thank you. The studio has your message.',
           fields: {},
           data: body,
         });
@@ -92,7 +100,7 @@ export function useFormSubmit<T = { message?: string }>(action: RecaptchaAction,
         return { ok: false as const, body: null };
       }
     },
-    [action, endpoint, execute, requireV2, resetCaptcha, v2Token],
+    [action, endpoint, execute, requireV2, resetCaptcha, v2Token, v2Required],
   );
 
   const clear = useCallback(

@@ -30,7 +30,7 @@ export interface RecaptchaOutcome {
   /** True when the caller must retry through the v2 checkbox challenge. */
   requiresV2Fallback: boolean;
   reason?: string;
-  /** Set when RECAPTCHA_SECRET_KEY is absent — requests are accepted but flagged. */
+  /** Set when RECAPTCHA_SECRET_KEY is absent. Requests are accepted but flagged. */
   bypassed?: boolean;
 }
 
@@ -120,7 +120,7 @@ export async function verifyRecaptcha(
       };
     }
 
-    // v2 tokens return success with no score — accept them outright.
+    // v2 tokens return success with no score, so accept them outright.
     return { ok: true, score, action: data.action, requiresV2Fallback: false };
   } catch (error) {
     return {

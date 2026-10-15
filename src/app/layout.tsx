@@ -7,19 +7,16 @@ import '@fontsource/rajdhani/latin-700.css';
 
 import { SITE } from '@/lib/site';
 import { Providers } from './providers';
-import { Preloader } from '@/components/Preloader';
 import { NavBar } from '@/components/NavBar';
 import { SiteFooter } from '@/components/SiteFooter';
 import { Player } from '@/components/Player';
-import { WhatsAppButton } from '@/components/WhatsAppButton';
 import { CookieConsent } from '@/components/CookieConsent';
-import { GooeyFilterDefs } from '@/components/GooeyFilterDefs';
 import { StationJsonLd } from '@/components/JsonLd';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Nairobi Speaks. Silas Radio Listens.`,
+    default: `${SITE.name} | Community radio from Nairobi`,
     template: `%s | ${SITE.name}`,
   },
   description:
@@ -47,7 +44,7 @@ export const metadata: Metadata = {
     locale: SITE.locale,
     url: SITE.url,
     siteName: SITE.name,
-    title: `${SITE.name} — Live from Nairobi, 91.7 FM and online`,
+    title: `${SITE.name} | Live from Nairobi on 91.7 FM`,
     description: SITE.subtext,
     images: [
       {
@@ -60,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE.name} — Live from Nairobi`,
+    title: `${SITE.name} | Live from Nairobi`,
     description: SITE.subtext,
     images: ['/images/culture/nairobi-skyline.jpg'],
   },
@@ -80,13 +77,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#290849' },
-    { media: '(prefers-color-scheme: light)', color: '#5c00ce' },
-  ],
+  themeColor: '#111111',
   width: 'device-width',
   initialScale: 1,
-  colorScheme: 'dark light',
+  colorScheme: 'light',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -98,15 +92,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Skip to main content
           </a>
 
-          {/* EFFECT-25 microphone preloader (EFFECT-08 wordmark inside) */}
-          <Preloader />
-
-          {/* Shared SVG filter: gallery card 7 and the 404 page (EFFECT-17) */}
-          <GooeyFilterDefs />
-
           <StationJsonLd />
 
-          {/* EFFECT-28 glassmorphic nav, EFFECT-10 logo, EFFECT-11 icon motion */}
           <NavBar />
 
           <main id="main" tabIndex={-1}>
@@ -115,13 +102,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <SiteFooter />
 
-          {/* Presence board lives above the player (see PresenceBoard section) */}
           <Player />
 
-          {/* Floating WhatsApp button — sits above the pinned player */}
-          <WhatsAppButton />
-
-          {/* Kenya DPA 2019 cookie consent, bottom-fixed full width */}
           <CookieConsent />
         </Providers>
       </body>

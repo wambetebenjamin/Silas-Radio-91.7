@@ -2,10 +2,11 @@ import { SITE } from '@/lib/site';
 import { PRESENTERS, SCHEDULE } from '@/lib/site';
 
 /**
- * JSON-LD structured data.
+ * JSON-LD structured data for the station (rendered once, in the root layout).
  *
- * - RadioStation + LocalBusiness for the station (root layout)
- * - PodcastSeries per show (rendered by the schedule/podcast pages)
+ * Every item below is derived from the canonical schedule and presenter data in
+ * `src/lib/site.ts` and linked to a real page, so the markup can never drift into
+ * describing routes that do not exist.
  */
 
 export function StationJsonLd() {
@@ -56,14 +57,12 @@ export function StationJsonLd() {
           },
         ],
         sameAs: [
-          SITE.social.spotify,
-          SITE.social.applePodcasts,
           SITE.social.youtube,
           SITE.social.instagram,
         ],
         potentialAction: {
           '@type': 'ListenAction',
-          target: { '@type': 'EntryPoint', urlTemplate: SITE.streamUrl, actionPlatform: 'http://schema.org/DesktopWebPlatform' },
+          target: { '@type': 'EntryPoint', urlTemplate: `${SITE.url}/listen`, actionPlatform: 'http://schema.org/DesktopWebPlatform' },
         },
       },
       {
@@ -87,6 +86,7 @@ export function StationJsonLd() {
           '@type': 'ListItem',
           position: index + 1,
           name: `${slot.name} with ${slot.presenter}`,
+          url: `${SITE.url}/shows/${slot.id}`,
           description: slot.description,
         })),
       },
@@ -98,7 +98,8 @@ export function StationJsonLd() {
           '@type': 'ListItem',
           position: index + 1,
           name: presenter.name,
-          description: `${presenter.show} — ${presenter.showDays}, ${presenter.showTimes}`,
+          url: `${SITE.url}/presenters/${presenter.slug}`,
+          description: `${presenter.show}, ${presenter.showDays}, ${presenter.showTimes}`,
         })),
       },
     ],
@@ -108,47 +109,6 @@ export function StationJsonLd() {
     <script
       type="application/ld+json"
       // Structured data is static and generated from typed content, never user input.
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
-  );
-}
-
-export function PodcastSeriesJsonLd({
-  name,
-  description,
-  presenter,
-  slug,
-  episodes = [],
-}: {
-  name: string;
-  description: string;
-  presenter: string;
-  slug: string;
-  episodes?: { title: string; date: string; duration: string }[];
-}) {
-  const data = {
-    '@context': 'https://schema.org',
-    '@type': 'PodcastSeries',
-    '@id': `${SITE.url}/podcasts#${slug}`,
-    name,
-    description,
-    url: `${SITE.url}/podcasts#${slug}`,
-    inLanguage: 'en-KE',
-    webFeed: `${SITE.url}/api/news?category=podcast`,
-    author: { '@type': 'Person', name: presenter },
-    publisher: { '@id': `${SITE.url}/#station` },
-    image: `${SITE.url}/images/studio/broadcast-desk-duo.jpg`,
-    hasPart: episodes.map((episode) => ({
-      '@type': 'PodcastEpisode',
-      name: episode.title,
-      datePublished: episode.date,
-      duration: episode.duration,
-    })),
-  };
-
-  return (
-    <script
-      type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );

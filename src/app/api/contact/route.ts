@@ -5,7 +5,7 @@ import { RECAPTCHA_ACTIONS, verifyRecaptcha } from '@/lib/recaptcha';
 import { clientKey, contactSchema, fieldErrors, rateLimit } from '@/lib/validation';
 
 /**
- * POST /api/contact — general contact form.
+ * POST /api/contact: general contact form.
  * reCAPTCHA v3 (v2 fallback < 0.5) → validate → KV → Nodemailer.
  */
 export async function POST(request: Request) {

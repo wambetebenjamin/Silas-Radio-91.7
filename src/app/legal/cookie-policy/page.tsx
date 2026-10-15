@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { LEGAL, SITE } from '@/lib/site';
-import { SectionHead } from '@/components/SectionHead';
+import { PageHero } from '@/components/site/PageHero';
 
 export const metadata: Metadata = {
   title: 'Cookie Policy',
@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 
 export default function CookiePolicyPage() {
   return (
-    <div className="spad" style={{ background: '#fff' }}>
+    <div className="spad legal-page" style={{ background: '#fff' }}>
       <div className="sr-container">
-        <SectionHead as="h1" eyebrow="Legal" ghost="COOKIES" title="Cookie Policy" />
+        <PageHero eyebrow="Legal · Current website policies" title="Cookie Policy" description="The terms and policies that apply when you use the Silas Radio 91.7 website and services." breadcrumb="Cookie Policy" />
         <p className="sr-updated">
           Last updated {new Date(LEGAL.cookieUpdated).toLocaleDateString('en-KE', { dateStyle: 'long' })} · Works with the
           consent banner you saw when you first visited.
@@ -129,7 +129,7 @@ export default function CookiePolicyPage() {
           <h2 id="control">5. How to change your choices</h2>
           <ul>
             <li>
-              Open the consent banner's <strong>Manage Preferences</strong> control — it reappears on
+              Open the consent banner's <strong>Manage Preferences</strong> control. It reappears on
               your next visit, or you can clear <code>silas-cookie-consent</code> from your browser
               storage to bring it back immediately.
             </li>

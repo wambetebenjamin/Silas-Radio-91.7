@@ -14,6 +14,23 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  async redirects() {
+    // Keep links/bookmarks from the supplied DJoz HTML archive working.
+    return [
+      { source: '/index.html', destination: '/', permanent: true },
+      { source: '/about.html', destination: '/about', permanent: true },
+      { source: '/discography.html', destination: '/podcasts', permanent: true },
+      { source: '/tours.html', destination: '/schedule', permanent: true },
+      { source: '/videos.html', destination: '/studio', permanent: true },
+      { source: '/blog.html', destination: '/news', permanent: true },
+      { source: '/blog-details.html', destination: '/news', permanent: true },
+      { source: '/contact.html', destination: '/contact', permanent: true },
+      { source: '/live', destination: '/listen', permanent: true },
+      { source: '/privacy', destination: '/legal/privacy-policy', permanent: true },
+      { source: '/terms', destination: '/legal/terms', permanent: true },
+      { source: '/cookies', destination: '/legal/cookie-policy', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

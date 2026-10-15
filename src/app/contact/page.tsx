@@ -1,45 +1,9 @@
-import type { Metadata } from 'next';
+import { PageHero } from '@/components/site/PageHero';
+import { ContactDetails } from '@/components/site/ContactDetails';
+import { StationForm } from '@/components/site/StationForm';
+import { pageMetadata } from '@/lib/metadata';
 
-import { SITE } from '@/lib/site';
-import { SectionHead } from '@/components/SectionHead';
-import { ContactSection } from '@/components/ContactSection';
-import { ContactForm } from '@/components/ContactForm';
-
-export const metadata: Metadata = {
-  title: 'Contact the station',
-  description:
-    'Contact Silas Radio 91.7: studio address on Kimathi Street Nairobi, phone, WhatsApp, advertising enquiries and the newsroom desk.',
-  alternates: { canonical: '/contact' },
-  openGraph: {
-    title: 'Contact Silas Radio 91.7',
-    description: 'Studio address, phone, WhatsApp and the contact form for the Nairobi studio.',
-    type: 'website',
-    url: `${SITE.url}/contact`,
-  },
-};
-
+export const metadata = pageMetadata('Contact the station', 'Get in touch with the Silas Radio 91.7 studio in Nairobi. Send a story tip, music submission, partnership idea or feedback.', '/contact');
 export default function ContactPage() {
-  return (
-    <div style={{ background: '#fff' }}>
-      <section className="spad pb-0">
-        <div className="sr-container">
-          <SectionHead as="h1" eyebrow="Studio desk" ghost="CONTACT" title="Get in touch" />
-          <p className="sr-lead">
-            Song requests, news tips, music submissions, partnerships or complaints — everything
-            reaches a human at the studio. For advertising, use the enquiry form and the sales desk
-            replies within one working day.
-          </p>
-        </div>
-      </section>
-
-      <section className="spad">
-        <div className="sr-container">
-          <ContactForm />
-        </div>
-      </section>
-
-      {/* Address, map, phone, WhatsApp and the advertising enquiry form */}
-      <ContactSection />
-    </div>
-  );
+  return <><PageHero eyebrow="Get in touch" title="Contact the studio" description="Story tips, music submissions, feedback and partnership enquiries all come to the same place." breadcrumb="Contact" /><section className="section"><div className="container contact-layout"><ContactDetails /><StationForm mode="contact" /></div></section></>;
 }

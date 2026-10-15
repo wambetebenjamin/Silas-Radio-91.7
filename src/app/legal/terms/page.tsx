@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { LEGAL, PACKAGES, SITE } from '@/lib/site';
-import { SectionHead } from '@/components/SectionHead';
+import { PageHero } from '@/components/site/PageHero';
 
 export const metadata: Metadata = {
   title: 'Terms and Conditions',
@@ -21,9 +21,9 @@ const SECTIONS = [
 
 export default function TermsPage() {
   return (
-    <div className="spad" style={{ background: '#fff' }}>
+    <div className="spad legal-page" style={{ background: '#fff' }}>
       <div className="sr-container">
-        <SectionHead as="h1" eyebrow="Legal" ghost="TERMS" title="Terms and Conditions" />
+        <PageHero eyebrow="Legal · Current website policies" title="Terms and Conditions" description="The terms and policies that apply when you use the Silas Radio 91.7 website and services." breadcrumb="Terms and Conditions" />
         <p className="sr-updated">
           Last updated {new Date(LEGAL.termsUpdated).toLocaleDateString('en-KE', { dateStyle: 'long' })} · Applies to{' '}
           {SITE.url}, the {SITE.frequency} broadcast and every Silas Radio 91.7 podcast feed.
@@ -119,8 +119,8 @@ export default function TermsPage() {
             </li>
             <li>
               <strong>Scheduling.</strong> We aim to run every booked spot as scheduled. If a programme
-              is cancelled or interrupted — including by transmission failure or events beyond our
-              control — the spot is re-run or the equivalent airtime is credited.
+              is cancelled or interrupted, including by transmission failure or events beyond our
+              control, the spot is re-run or the equivalent airtime is credited.
             </li>
             <li>
               <strong>Payment.</strong> Invoices are payable within 30 days of the invoice date.
@@ -181,7 +181,7 @@ export default function TermsPage() {
             <li>
               <strong>Your submissions.</strong> When you send a request, dedication, contest answer,
               news tip or photo you keep ownership of it, and you grant us a non-exclusive,
-              royalty-free licence to use, edit and broadcast it in connection with the station —
+              royalty-free licence to use, edit and broadcast it in connection with the station,
               including in podcast episodes and on our website and social channels.
             </li>
             <li>

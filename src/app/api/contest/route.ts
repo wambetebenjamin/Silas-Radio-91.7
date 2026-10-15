@@ -1,3 +1,4 @@
+import { CONTESTS, contestIsOpen } from '@/lib/contests';
 import { NextResponse } from 'next/server';
 import { KEYS, saveRecord, storageConfigured } from '@/lib/db';
 import { sendStudioMail, studioWhatsappLink } from '@/lib/mailer';
@@ -5,7 +6,7 @@ import { RECAPTCHA_ACTIONS, verifyRecaptcha } from '@/lib/recaptcha';
 import { clientKey, contestEntrySchema, fieldErrors, rateLimit } from '@/lib/validation';
 
 /**
- * POST /api/contest — contest / giveaway entry.
+ * POST /api/contest: contest / giveaway entry.
  * reCAPTCHA v3 (v2 fallback < 0.5) → validate → save to KV → confirm.
  */
 export async function POST(request: Request) {
@@ -33,6 +34,13 @@ export async function POST(request: Request) {
   }
 
   const data = parsed.data;
+
+  if (!CONTESTS.some((contest) => contest.slug === data.contestSlug)) {
+    return NextResponse.json({ ok: false, error: 'Contest not found.' }, { status: 404 });
+  }
+  if (!contestIsOpen(data.contestSlug)) {
+    return NextResponse.json({ ok: false, error: 'Entries for this contest are closed.' }, { status: 410 });
+  }
 
   const captcha = await verifyRecaptcha(
     data.token ?? data.v2Token,
@@ -63,7 +71,7 @@ export async function POST(request: Request) {
     captchaBypassed: captcha.bypassed ?? false,
   });
 
-  const summary = `Contest entry — ${data.contestSlug}\n${data.name} · ${data.phone} · ${data.email}\nAnswer: ${data.answer}`;
+  const summary = `Contest entry: ${data.contestSlug}\n${data.name} · ${data.phone} · ${data.email}\nAnswer: ${data.answer}`;
   const mail = await sendStudioMail({
     subject: `Contest entry: ${data.contestSlug}`,
     text: summary,
@@ -76,6 +84,6 @@ export async function POST(request: Request) {
     storage: storageConfigured ? 'kv' : 'local-buffer',
     notified: mail.ok,
     whatsappLink: studioWhatsappLink(summary),
-    message: 'You are in the draw. Winners are announced on air — keep your phone close.',
+    message: 'You are in the draw. Winners are announced on air, so keep your phone close.',
   });
 }

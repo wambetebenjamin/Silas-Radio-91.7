@@ -39,7 +39,7 @@ export function useScrolled(threshold = 24): boolean {
   return scrolled;
 }
 
-/** True when the document is hidden — used to pause particles and sprites. */
+/** True when the document is hidden, used to pause particles and sprites. */
 export function useDocumentVisible(): boolean {
   const [visible, setVisible] = useState(true);
 

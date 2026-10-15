@@ -10,11 +10,13 @@
  *
  * Usage: node scripts/audit-rendered.mjs [baseUrl]
  */
-const base = process.argv[2] ?? 'http://127.0.0.1:3000';
+const base = process.argv[2] ?? process.env.AUDIT_BASE_URL ?? 'http://127.0.0.1:3000';
 
 const pages = [
-  '/', '/news', '/news/nairobi-commuters-drive-new-morning-sound', '/podcasts',
-  '/advertise', '/contests', '/contact', '/register',
+  '/', '/about', '/shows', '/shows/amaka-early', '/schedule', '/presenters',
+  '/presenters/mary-wanjiru', '/podcasts', '/podcasts/amaka-early-preview',
+  '/news', '/news/nairobi-commuters-drive-new-morning-sound', '/listen', '/studio',
+  '/request', '/newsletter', '/advertise', '/contests', '/contact', '/register',
   '/legal/privacy-policy', '/legal/terms', '/legal/cookie-policy', '/nonexistent-page',
 ];
 
@@ -39,15 +41,19 @@ function analyse(html) {
     if (!/\stype=/.test(attrs)) btnNoType += 1;
   }
 
-  // Inputs/selects/textareas: need id+label[for] or aria-label
+  // Inputs/selects/textareas: need id+label[for], aria-label, or a wrapping <label>.
   const labelledIds = new Set([...html.matchAll(/<label[^>]*\sfor="([^"]+)"/g)].map((m) => m[1]));
+  const wrappedInLabel = new Set();
+  for (const block of html.matchAll(/<label\b[^>]*>([\s\S]*?)<\/label>/g)) {
+    for (const field of block[1].matchAll(/<(?:input|select|textarea)\b[^>]*>/g)) wrappedInLabel.add(field[0]);
+  }
   const fields = html.match(/<(input|select|textarea)\b[^>]*>/g) ?? [];
   let fieldNoName = 0;
   for (const tag of fields) {
     const type = /type="([^"]+)"/.exec(tag)?.[1] ?? 'text';
     if (['hidden', 'submit', 'button', 'image'].includes(type)) continue;
     const id = /id="([^"]+)"/.exec(tag)?.[1];
-    const hasLabel = /aria-label=|aria-labelledby=/.test(tag) || (id && labelledIds.has(id));
+    const hasLabel = /aria-label=|aria-labelledby=/.test(tag) || wrappedInLabel.has(tag) || (id && labelledIds.has(id));
     if (!hasLabel) fieldNoName += 1;
   }
 
