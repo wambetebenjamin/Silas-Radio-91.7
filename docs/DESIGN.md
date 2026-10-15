@@ -85,9 +85,12 @@ What replaced them:
 The first pass wrote in a recognisable "assistant" register. The rules now applied across
 `src/`, `content/` and the docs:
 
-* **No em dashes.** Every `—` was rewritten as a full stop, colon, comma or bracket. Where a range
-  is genuinely a range, an en dash without spaces is used and only inside a time or number pair
-  (`05:00–09:00`, `34,000–71,000`). `grep -rn "—" .` outside `design-source/` returns nothing.
+* **No em dashes.** The em dash (U+2014) was removed throughout and each one rewritten as a full
+  stop, colon, comma or bracket. Where a range is genuinely a range, an en dash (U+2013) without
+  spaces is used, and only inside a time or number pair (`05:00–09:00`, `34,000–71,000`).
+  This file spells the character out by code point rather than printing it, so the check is
+  honest: searching the text files outside `design-source/` for U+2014 returns nothing. Binary
+  assets (the demo MP3s, the JPEGs) match that byte sequence by coincidence and are not text.
 * **No staccato headlines.** Two- and three-fragment lines ending on a full stop ("Your time. Your
   play button.", "Be heard. Belong here.", "Good music. Real voices. Your Nairobi.") were replaced
   with the plainest accurate description of the page: "Advertise with Silas Radio", "The listening
