@@ -99,7 +99,7 @@ export function StationJsonLd() {
           position: index + 1,
           name: presenter.name,
           url: `${SITE.url}/presenters/${presenter.slug}`,
-          description: `${presenter.show} — ${presenter.showDays}, ${presenter.showTimes}`,
+          description: `${presenter.show}, ${presenter.showDays}, ${presenter.showTimes}`,
         })),
       },
     ],

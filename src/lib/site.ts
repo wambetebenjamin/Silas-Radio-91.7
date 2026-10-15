@@ -1,5 +1,5 @@
 /**
- * Silas Radio 91.7 — station content + configuration.
+ * Silas Radio 91.7 station content and configuration.
  *
  * Single source of truth for schedule, presenters, packages, legal metadata
  * and contact details. Everything static lives here so pages stay declarative.
@@ -9,9 +9,9 @@ export const SITE = {
   name: 'Silas Radio 91.7',
   shortName: 'Silas Radio',
   frequency: '91.7 FM',
-  tagline: 'Nairobi Speaks. Silas Radio Listens.',
+  tagline: 'Community radio from Nairobi',
   subtext:
-    'Live 24 hours. Community stories. East African music. 91.7 FM and online.',
+    'East African music, community radio and local news from Nairobi, on 91.7 FM and online.',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://silasradio917.co.ke',
   locale: 'en_KE',
   city: 'Nairobi',
@@ -79,7 +79,7 @@ export interface ShowSlot {
   description: string;
 }
 
-/** Times in Africa/Nairobi (EAT, UTC+3) — SSR renders real clock data. */
+/** Times in Africa/Nairobi (EAT, UTC+3). SSR renders real clock data. */
 export const TIMEZONE = 'Africa/Nairobi';
 
 export const SCHEDULE: ShowSlot[] = [
@@ -120,7 +120,7 @@ export const SCHEDULE: ShowSlot[] = [
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     hasRecording: true,
     description:
-      'The commute home in Sheng — new East African releases, dedications and shout-outs.',
+      'The commute home in Sheng: new East African releases, dedications and shout-outs.',
   },
   {
     id: 'genre-night',
@@ -133,7 +133,7 @@ export const SCHEDULE: ShowSlot[] = [
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'],
     hasRecording: true,
     description:
-      'Benga, afrobeat, gengetone and bongo flava — one genre per night, mixed live.',
+      'Benga, afrobeat, gengetone and bongo flava. One genre per night, mixed live.',
   },
   {
     id: 'friday-heat',
@@ -145,7 +145,7 @@ export const SCHEDULE: ShowSlot[] = [
     duration: '4 hours 30 minutes',
     days: ['Friday'],
     hasRecording: true,
-    description: 'Nairobi weekend kickoff — DJ sets, road stories and live dedications.',
+    description: 'The Nairobi weekend kickoff: DJ sets, road stories and live dedications.',
   },
   {
     id: 'saturday-market',
@@ -232,9 +232,9 @@ export const PRESENTERS: Presenter[] = [
     slug: 'mary-wanjiru',
     name: 'Mary Wanjiru',
     show: 'Amaka Early Drive',
-    showDays: 'Monday – Friday',
-    showTimes: '05:00 – 09:00 EAT',
-    bio: 'Fifteen years on Nairobi breakfast radio. Mary built Amaka Early Drive around matatu routes, market prices and the people who are already awake at 5am.',
+    showDays: 'Monday to Friday',
+    showTimes: '05:00–09:00 EAT',
+    bio: 'Mary has spent fifteen years on Nairobi breakfast radio. She built Amaka Early Drive around matatu routes, market prices and the people who are already awake at 5am.',
     image: '/images/presenters/presenter-mary.jpg',
     imageAlt: 'Presenter Mary Wanjiru speaking into a studio microphone with headphones.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -244,9 +244,9 @@ export const PRESENTERS: Presenter[] = [
     slug: 'zawadi-achieng',
     name: 'Zawadi Achieng',
     show: 'Midday Community Hour · Nairobi Nights',
-    showDays: 'Monday – Friday · Saturday',
-    showTimes: '12:00 – 14:00 · 21:00 – 24:00 EAT',
-    bio: 'Community reporter turned host. Zawadi brings residents, ward leaders and CBOs into the same conversation, then slows the city down after dark.',
+    showDays: 'Monday to Friday · Saturday',
+    showTimes: '12:00–14:00 · 21:00–24:00 EAT',
+    bio: 'Zawadi moved from community reporting to hosting. She brings residents, ward leaders and CBOs into one conversation on Midday Community Hour, then hosts Nairobi Nights on Saturday.',
     image: '/images/presenters/presenter-zawadi.jpg',
     imageAlt: 'Presenter Zawadi Achieng recording vocals wearing headphones in a studio.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -256,9 +256,9 @@ export const PRESENTERS: Presenter[] = [
     slug: 'brian-otieno',
     name: 'Brian Otieno',
     show: 'Sheng Express · Diaspora Window',
-    showDays: 'Monday – Friday · Sunday',
-    showTimes: '16:00 – 19:00 · 15:00 – 17:00 EAT',
-    bio: 'Sheng is Brian’s first language on air. He runs the commute show and the Sunday window that keeps Nairobi talking to the diaspora.',
+    showDays: 'Monday to Friday · Sunday',
+    showTimes: '16:00–19:00 · 15:00–17:00 EAT',
+    bio: 'Sheng is Brian’s first language on air. He hosts the commute show and the Sunday programme that keeps Nairobi talking to the diaspora.',
     image: '/images/presenters/presenter-brian.jpg',
     imageAlt: 'Presenter Brian Otieno smiling with headphones on an orange studio background.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -268,9 +268,9 @@ export const PRESENTERS: Presenter[] = [
     slug: 'grace-muthoni',
     name: 'Grace Muthoni',
     show: 'Genre Night',
-    showDays: 'Monday – Thursday',
-    showTimes: '20:00 – 23:00 EAT',
-    bio: 'Crate digger and selector. Grace mixes one genre a night — benga to bongo flava — and explains where every record came from.',
+    showDays: 'Monday to Thursday',
+    showTimes: '20:00–23:00 EAT',
+    bio: 'Grace is a crate digger and selector who mixes one genre a night, from benga to bongo flava, and explains where every record came from.',
     image: '/images/presenters/presenter-grace.jpg',
     imageAlt: 'Presenter Grace Muthoni smiling while speaking into a studio microphone.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -281,8 +281,8 @@ export const PRESENTERS: Presenter[] = [
     name: 'Kevin Omondi',
     show: 'Friday Heat · Overnight Mix',
     showDays: 'Friday · Nightly',
-    showTimes: '19:00 – 23:30 · 00:00 – 05:00 EAT',
-    bio: 'The producer behind the Friday Heat mix and the overnight bed of East African music that keeps 91.7 FM alive when the city sleeps.',
+    showTimes: '19:00–23:30 · 00:00–05:00 EAT',
+    bio: 'Kevin produces the Friday Heat mix and the overnight run of East African music that keeps 91.7 FM on air through the night.',
     image: '/images/presenters/presenter-kevin.jpg',
     imageAlt: 'Presenter Kevin Omondi in studio portrait wearing glasses and headphones.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -293,8 +293,8 @@ export const PRESENTERS: Presenter[] = [
     name: 'Tom Kariuki',
     show: 'Saturday Market',
     showDays: 'Saturday',
-    showTimes: '08:00 – 12:00 EAT',
-    bio: 'Broadcasts live from the market floor with traders, cooks and tailors — a four-hour tour of Nairobi’s Saturday economy.',
+    showTimes: '08:00–12:00 EAT',
+    bio: 'Tom broadcasts live from the market floor with traders, cooks and tailors, in a four-hour tour of Nairobi’s Saturday economy.',
     image: '/images/presenters/presenter-tom.jpg',
     imageAlt: 'Presenter Tom Kariuki wearing headphones and singing into a studio microphone.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -303,10 +303,10 @@ export const PRESENTERS: Presenter[] = [
   {
     slug: 'otieno-mwangi',
     name: 'Otieno Mwangi',
-    show: 'Podcast Desk — The Studio Sessions',
+    show: 'Podcast Desk: The Studio Sessions',
     showDays: 'Published Thursdays',
     showTimes: 'On demand',
-    bio: 'Long-form producer. Otieno turns the week’s best studio conversations into the podcast feed for listeners who missed them live.',
+    bio: 'Otieno is a long-form producer. He edits the week’s studio conversations into the podcast feed for listeners who missed them live.',
     image: '/images/presenters/presenter-otieno.jpg',
     imageAlt: 'Podcast host Otieno Mwangi wearing headphones and holding a microphone.',
     social: { instagram: 'https://instagram.com/silasradio917', x: 'https://x.com/silasradio917' },
@@ -442,5 +442,5 @@ export function to12h(hhmm: string): string {
 }
 
 export function formatDurationLabel(start: string, end: string): string {
-  return `${to12h(start)} – ${to12h(end)}`;
+  return `${to12h(start)} to ${to12h(end)}`;
 }

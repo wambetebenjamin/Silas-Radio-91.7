@@ -9,7 +9,7 @@ Produces two binary assets that are committed to the repository:
      converted to TTF in-memory with fontTools) on the brand purple #5c00ce.
 
   2. The EFFECT-31 stop-motion sprite sheet
-     (public/images/stopmotion-vinyl-sprite.png) — 12 frames of 240x200 = 2880x200,
+     (public/images/stopmotion-vinyl-sprite.png): 12 frames of 240x200 = 2880x200,
      showing a vinyl record spinning while the needle drops. Stepped at 8fps by
      CSS (see .sr-spritesheet in globals.css), which sits inside the spec's
      8–12fps range.

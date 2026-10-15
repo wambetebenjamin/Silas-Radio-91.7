@@ -129,7 +129,7 @@ export default function CookiePolicyPage() {
           <h2 id="control">5. How to change your choices</h2>
           <ul>
             <li>
-              Open the consent banner's <strong>Manage Preferences</strong> control — it reappears on
+              Open the consent banner's <strong>Manage Preferences</strong> control. It reappears on
               your next visit, or you can clear <code>silas-cookie-consent</code> from your browser
               storage to bring it back immediately.
             </li>

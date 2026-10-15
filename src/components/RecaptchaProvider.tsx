@@ -133,11 +133,11 @@ export function RecaptchaProvider({ children }: { children: React.ReactNode }) {
   return (
     <RecaptchaContext.Provider value={value}>
       {children}
-      {/* v2 fallback mount point — only populated when required */}
+      {/* v2 fallback mount point, only populated when required */}
       {v2Required ? (
         <div className="sr-v2-challenge" role="group" aria-label="Verification challenge">
           <p className="sr-meta">
-            One quick check before we send this — it keeps automated spam out of the
+            One quick check before we send this. It keeps automated spam out of the
             request line. Score threshold is {RECAPTCHA_SCORE_THRESHOLD}.
           </p>
           <div id="silas-recaptcha-v2" />

@@ -2,24 +2,24 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const PAGES: { path: string; heading: string | RegExp }[] = [
-  { path: '/', heading: /Good music/ },
-  { path: '/about', heading: /More than a frequency/ },
-  { path: '/shows', heading: /Find your kind of radio/ },
+  { path: '/', heading: /Nairobi’s own/ },
+  { path: '/about', heading: /About Silas Radio/ },
+  { path: '/shows', heading: /What’s on Silas Radio/ },
   { path: '/shows/amaka-early', heading: /Amaka Early Drive/ },
-  { path: '/schedule', heading: /Your week. On the air/ },
-  { path: '/presenters', heading: /Familiar voices/ },
+  { path: '/schedule', heading: /The weekly schedule/ },
+  { path: '/presenters', heading: /The people on the microphone/ },
   { path: '/presenters/mary-wanjiru', heading: /Mary Wanjiru/ },
-  { path: '/podcasts', heading: /Your time. Your play button/ },
-  { path: '/podcasts/amaka-early-preview', heading: /Start your day on our frequency/ },
-  { path: '/news', heading: /The city has a story/ },
-  { path: '/listen', heading: /You’re in good company/ },
-  { path: '/request', heading: /For you. For someone special/ },
-  { path: '/studio', heading: /Where the city finds its voice/ },
-  { path: '/newsletter', heading: /Your Friday, on a good note/ },
-  { path: '/advertise', heading: /Be heard. Belong here/ },
-  { path: '/contact', heading: /Let’s talk/ },
-  { path: '/contests', heading: /Good things come to listeners/ },
-  { path: '/register', heading: /Good radio. No sign-in needed/ },
+  { path: '/podcasts', heading: /The listening library/ },
+  { path: '/podcasts/amaka-early-preview', heading: /The Amaka Early Drive preview/ },
+  { path: '/news', heading: /News and stories/ },
+  { path: '/listen', heading: /91\.7 FM from Nairobi/ },
+  { path: '/request', heading: /Request a song/ },
+  { path: '/studio', heading: /How the studio works/ },
+  { path: '/newsletter', heading: /The weekly playlist/ },
+  { path: '/advertise', heading: /Advertise with Silas Radio/ },
+  { path: '/contact', heading: /Contact the studio/ },
+  { path: '/contests', heading: /Contests and giveaways/ },
+  { path: '/register', heading: /Listen without an account/ },
   { path: '/legal/privacy-policy', heading: /Privacy Policy/ },
 ];
 
@@ -40,7 +40,7 @@ test.describe('every route is a real page', () => {
   test('unknown show slugs return a 404 page', async ({ page }) => {
     const response = await page.goto('/shows/definitely-not-a-show');
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/quiet/i);
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(/could not find that page/i);
   });
 });
 
@@ -106,7 +106,7 @@ test.describe('catalogues and forms', () => {
     const filtered = await page.locator('.catalogue-grid > *').count();
     expect(filtered).toBeGreaterThan(0);
     expect(filtered).toBeLessThan(all);
-    await page.getByRole('searchbox', { name: /Find a show/ }).fill('sheng');
+    await page.getByRole('searchbox', { name: /Search shows/ }).fill('sheng');
     await expect(page.getByRole('status').filter({ hasText: /show/ })).toContainText(/1 show/);
     await expect(page).toHaveURL(/q=sheng/);
   });
@@ -123,7 +123,7 @@ test.describe('catalogues and forms', () => {
     await requestForm.getByRole('button', { name: /Send to the studio/ }).click();
     const status = page.locator('.form-status');
     await expect(status).toContainText(/Preview only|Recorded|received|try again|couldn’t/i);
-    await expect(status).not.toContainText(/has been delivered|Thank you — the studio has your message/i);
+    await expect(status).not.toContainText(/has been delivered|Thank you\. The studio has your message/i);
   });
 
   test('contests stay clearly closed and the register page does not collect passwords', async ({ page }) => {
@@ -131,7 +131,7 @@ test.describe('catalogues and forms', () => {
     await expect(page.getByText(/No contests are accepting entries/)).toBeVisible();
     await page.goto('/register');
     await expect(page.locator('input[type="password"]')).toHaveCount(0);
-    await expect(page.getByText(/aren’t open yet/)).toBeVisible();
+    await expect(page.getByText(/are not open yet/)).toBeVisible();
   });
 });
 
@@ -151,7 +151,7 @@ test.describe('audio', () => {
 
   test('the listening room marks demo audio honestly', async ({ page }) => {
     await page.goto('/listen');
-    await expect(page.getByText(/You’re hearing a demo/)).toBeVisible();
+    await expect(page.getByText(/You are hearing a demo/)).toBeVisible();
     await page.getByRole('button', { name: /Listen live/ }).first().click();
     await expect(page.getByRole('button', { name: /Pause radio/ }).first()).toBeVisible();
   });

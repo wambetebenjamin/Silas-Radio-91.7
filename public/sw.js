@@ -1,5 +1,5 @@
 /* Multi-page shell caching. Audio, APIs and Next.js RSC payloads are network-only. */
-const VERSION = 'silas-v3';
+const VERSION = 'silas-v4';
 const SHELL = `${VERSION}-shell`;
 const ASSETS = `${VERSION}-assets`;
 
@@ -48,5 +48,5 @@ self.addEventListener('fetch', (event) => {
 });
 
 function offlineDocument() {
-  return new Response(`<!doctype html><html lang="en-KE"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline | Silas Radio 91.7</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#19151f;color:white;font-family:system-ui;text-align:center;padding:25px;box-sizing:border-box}main{max-width:480px}p{line-height:1.8;color:#c8b7d6}a{display:inline-block;background:#dcf77a;color:#19151f;padding:14px 22px;text-decoration:none;margin:15px}</style></head><body><main><p>SILAS RADIO 91.7</p><h1>A little off the network.</h1><p>This page isn’t saved for offline use. Reconnect to browse or stream audio. Previously visited pages may still be available.</p><a href="/">Try the station again</a></main></body></html>`, { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+  return new Response(`<!doctype html><html lang="en-KE"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Offline | Silas Radio 91.7</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#111111;color:white;font-family:system-ui;text-align:center;padding:25px;box-sizing:border-box}main{max-width:480px}p{line-height:1.8;color:rgba(255,255,255,.72)}a{display:inline-block;background:#5c00ce;color:#ffffff;padding:14px 22px;text-decoration:none;margin:15px}</style></head><body><main><p>SILAS RADIO 91.7</p><h1>You are offline</h1><p>This page is not saved for offline use. Reconnect to browse the site or stream audio. Pages you visited earlier may still be available.</p><a href="/">Back to the station</a></main></body></html>`, { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
 }

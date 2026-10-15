@@ -19,7 +19,7 @@ const IMAGES_DIR = join(ROOT, 'public', 'images');
 const CREDITS = join(ROOT, 'image-credits.md');
 const EXT = /\.(jpe?g|png|webp|avif)$/i;
 
-/** Dimensions from PNG or JPEG headers — no dependencies. */
+/** Dimensions from PNG or JPEG headers, with no dependencies. */
 function dimensions(file) {
   const buf = readFileSync(file);
   // PNG: IHDR width/height are big-endian uint32s at byte 16
@@ -87,7 +87,7 @@ for (const file of shipped) {
 const shippedSet = new Set(shipped.map((f) => relative(IMAGES_DIR, f).split('\\').join(posix.sep)));
 for (const rel of credited) if (!shippedSet.has(rel)) strayCredit.push(rel);
 
-console.log('Silas Radio 91.7 — image credit verification\n');
+console.log('Silas Radio 91.7: image credit verification\n');
 const pad = (v, n) => String(v).padEnd(n);
 for (const r of rows) {
   console.log(
@@ -119,8 +119,8 @@ if (strayCredit.length) {
 if (problems === 0) {
   console.log('\nEvery shipped photograph has a credit entry, and every entry resolves. ✓');
 } else if (STRICT) {
-  console.log(`\n${problems} problem(s) found — failing (--strict).`);
+  console.log(`\n${problems} problem(s) found, failing (--strict).`);
   process.exitCode = 1;
 } else {
-  console.log(`\n${problems} problem(s) found — pass --strict to fail the run.`);
+  console.log(`\n${problems} problem(s) found. Pass --strict to fail the run.`);
 }

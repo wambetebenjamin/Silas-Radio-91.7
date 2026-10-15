@@ -10,13 +10,13 @@ import { captchaSchema, clientKey, fieldErrors, rateLimit } from '@/lib/validati
 export const runtime = 'nodejs';
 
 /**
- * POST /api/captcha — standalone server-side reCAPTCHA verification.
+ * POST /api/captcha: standalone server-side reCAPTCHA verification.
  *
  * Forms call this first so a low score can trigger the v2 checkbox fallback
  * *before* any other endpoint receives the payload. The individual endpoints
  * also verify own-token, so a caller cannot skip this step.
  *
- * Secret key lives in RECAPTCHA_SECRET_KEY only — never in the response.
+ * Secret key lives in RECAPTCHA_SECRET_KEY only, never in the response.
  */
 export async function POST(request: Request) {
   const limit = rateLimit(clientKey(request, 'captcha'), 40, 60_000);
@@ -57,14 +57,14 @@ export async function POST(request: Request) {
   });
 }
 
-/** GET /api/captcha — public half of the key pair, for the client script. */
+/** GET /api/captcha: public half of the key pair, for the client script. */
 export async function GET() {
   return NextResponse.json({
     ok: true,
     siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? '',
     enabled: recaptchaEnabled,
     threshold: RECAPTCHA_SCORE_THRESHOLD,
-    /** Accepted action names — mirrors the server-side allow-list in Zod. */
+    /** Accepted action names, mirroring the server-side allow-list in Zod. */
     actions: Object.values(RECAPTCHA_ACTIONS),
   });
 }

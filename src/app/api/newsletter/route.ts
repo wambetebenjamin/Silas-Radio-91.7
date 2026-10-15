@@ -5,7 +5,7 @@ import { RECAPTCHA_ACTIONS, verifyRecaptcha } from '@/lib/recaptcha';
 import { clientKey, fieldErrors, newsletterSchema, rateLimit } from '@/lib/validation';
 
 /**
- * POST /api/newsletter — "Weekly playlist and community news to your inbox."
+ * POST /api/newsletter: "Weekly playlist and community news to your inbox."
  * Email + genre preference → KV. Double opt-in is handled by the mailer in
  * production; here the subscriber is stored immediately with `status: pending`
  * so a studio operator can confirm.
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
   });
 }
 
-/** GET /api/newsletter — subscriber count for the footer badge. */
+/** GET /api/newsletter: subscriber count for the footer badge. */
 export async function GET() {
   const result = await listRecords(KEYS.newsletter, 1000);
   return NextResponse.json({

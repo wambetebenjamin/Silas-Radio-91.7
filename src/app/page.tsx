@@ -19,11 +19,11 @@ export default async function HomePage() {
       <LegacyNavigation />
       <Hero initialTime={now} />
       <FrequencyStrip initialTime={now} />
-      <section className="section home-shows"><div className="container"><SectionHeading eyebrow="Find your kind of radio" title="A soundtrack for every hour." href="/shows" linkLabel="Explore all shows" /><div className="grid-three">{featuredShows.map((show) => <ShowCard key={show.id} show={show} />)}</div><div className="genre-strip" aria-label="Music on Silas Radio">{['AFROBEAT', 'BENGA', 'GENGETONE', 'BONGO FLAVA', 'R&B & SOUL'].map((genre) => <span key={genre}>{genre}</span>)}</div></div></section>
-      <section className="section section--dark"><div className="container"><SectionHeading eyebrow="Good company, on your time" title="Press play. Stay a little longer." href="/podcasts" linkLabel="The listening library" light /><div className="grid-three">{EPISODES.map((episode) => <EpisodeCard key={episode.slug} episode={episode} />)}</div></div></section>
-      <section className="section section--white"><div className="container"><SectionHeading eyebrow="From the community desk" title="The city has a story." href="/news" linkLabel="All community stories" /><div className="grid-three">{news.slice(0, 3).map((article) => <StoryCard key={article.slug} article={article} />)}</div></div></section>
+      <section className="section home-shows"><div className="container"><SectionHeading eyebrow="Programmes" title="Shows on Silas Radio" href="/shows" linkLabel="All shows" /><div className="grid-three">{featuredShows.map((show) => <ShowCard key={show.id} show={show} />)}</div><div className="genre-strip" aria-label="Music on Silas Radio">{['AFROBEAT', 'BENGA', 'GENGETONE', 'BONGO FLAVA', 'R&B & SOUL'].map((genre) => <span key={genre}>{genre}</span>)}</div></div></section>
+      <section className="section section--dark"><div className="container"><SectionHeading eyebrow="On demand" title="Listen back" href="/podcasts" linkLabel="The listening library" light /><div className="grid-three">{EPISODES.map((episode) => <EpisodeCard key={episode.slug} episode={episode} />)}</div></div></section>
+      <section className="section section--white"><div className="container"><SectionHeading eyebrow="Community desk" title="News and stories" href="/news" linkLabel="All stories" /><div className="grid-three">{news.slice(0, 3).map((article) => <StoryCard key={article.slug} article={article} />)}</div></div></section>
       <CommunityBanner />
-      <section className="section"><div className="container newsletter-section"><div><p className="eyebrow">A little radio in your inbox</p><h2>Your Friday, on a good note.</h2><p>New discoveries, favourite tracks and stories from our corner of Nairobi. Sign up for the weekly playlist.</p></div><NewsletterForm /></div></section>
+      <section className="section"><div className="container newsletter-section"><div><p className="eyebrow">Newsletter</p><h2>The weekly playlist</h2><p>New tracks, station news and community stories from Nairobi, sent every Friday.</p></div><NewsletterForm /></div></section>
     </>
   );
 }

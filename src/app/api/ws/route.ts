@@ -5,7 +5,7 @@ export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 
 /**
- * /api/ws — live listener count + presence.
+ * /api/ws: live listener count + presence.
  *
  * The spec asks for WebSockets on the Edge runtime. Vercel's Edge runtime
  * cannot hold an HTTP upgrade for the duration of a listener session, so this
@@ -108,7 +108,7 @@ export async function GET(request: Request) {
   });
 }
 
-/** POST /api/ws — presence ping from a client that cannot hold a stream. */
+/** POST /api/ws: presence ping from a client that cannot hold a stream. */
 export async function POST(request: Request) {
   let body: { action?: 'join' | 'leave' | 'ping' } = {};
   try {

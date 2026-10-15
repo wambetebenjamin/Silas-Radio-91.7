@@ -1,4 +1,4 @@
-# VERIFICATION.md — evidence log
+# VERIFICATION.md: evidence log
 
 Commands below were run against this repository on **2026-10-14** in the Arena sandbox using
 **Node v24.0.0** (`.nvmrc`). Where a check has a scripted form, the script is the source of truth
@@ -6,7 +6,7 @@ and the output shown here is its captured result.
 
 ---
 
-## 1. Static checks — `npm run verify`
+## 1. Static checks: `npm run verify`
 
 ```
 $ npm run verify          # typecheck → font hashes → image credits → lint
@@ -21,7 +21,7 @@ $ npm run verify          # typecheck → font hashes → image credits → lint
 > next lint                                     ✓ No ESLint warnings or errors
 ```
 
-## 2. Production build — `npm run build`
+## 2. Production build: `npm run build`
 
 ```
 $ npm run build
@@ -34,7 +34,7 @@ $ npm run build
 52 routes: 19 page routes plus SSG detail pages for 10 shows, 7 presenters, 3 audio previews and
 3 articles, the `/api/*` handlers, `sitemap.xml`, `robots.txt` and the not-found page.
 
-## 3. Rendered structure audit — `npm run audit:rendered`
+## 3. Rendered structure audit: `npm run audit:rendered`
 
 ```
 $ npm run build && npm run start -- --hostname 0.0.0.0 &
@@ -48,7 +48,7 @@ Pages with structural problems: 0
 labelled (including wrapping `<label>`s), skip link, `lang="en-KE"`, live regions where content
 updates.
 
-## 4. Browser suite — `npm test`
+## 4. Browser suite: `npm test`
 
 Playwright 1.56.1 with `@axe-core/playwright` 4.11.0, run against the production build on two
 projects (desktop 1366×900, Pixel 5):
@@ -82,11 +82,11 @@ and `listen-mobile.jpg` (414 px viewport).
 
 ---
 
-## 6. History — how this build differs from the first pass
+## 6. History: how this build differs from the first pass
 
 An earlier pass of this project built a single-page site with 31 scripted effects and 26 routes
-(v1 documentation). That version's checks — including a rendered audit of 12 routes and the
-`three`/`wavesurfer.js` bundle sizes — no longer apply: the effects and those dependencies were
+(v1 documentation). That version's checks, including a rendered audit of 12 routes and the
+`three`/`wavesurfer.js` bundle sizes, no longer apply: the effects and those dependencies were
 removed when the site was split into real pages. See
 **[docs/DESIGN.md](./docs/DESIGN.md)** §4 and **[EFFECTS.md](./EFFECTS.md)**.
 

@@ -6,7 +6,7 @@ import { advertiseSchema, clientKey, fieldErrors, rateLimit } from '@/lib/valida
 import { PACKAGES, SITE } from '@/lib/site';
 
 /**
- * POST /api/advertise — advertising and sponsorship enquiry.
+ * POST /api/advertise: advertising and sponsorship enquiry.
  * Sends the proposal request to the sales inbox and pings the studio WhatsApp.
  */
 export async function POST(request: Request) {
@@ -69,11 +69,11 @@ export async function POST(request: Request) {
     captchaScore: captcha.score,
   });
 
-  const summary = `Advertising enquiry — ${data.company}\nContact: ${data.contactName} · ${data.email} · ${data.phone}\nPackage: ${packageName}${data.budget ? ` · Budget: ${data.budget}` : ''}\n\n${data.message}`;
+  const summary = `Advertising enquiry: ${data.company}\nContact: ${data.contactName} · ${data.email} · ${data.phone}\nPackage: ${packageName}${data.budget ? ` · Budget: ${data.budget}` : ''}\n\n${data.message}`;
 
   const mail = await sendStudioMail({
     subject: `Advertising enquiry: ${data.company}`,
-    text: `${summary}\n\n— Sent from ${SITE.url}/advertise`,
+    text: `${summary}\n\nSent from ${SITE.url}/advertise`,
     replyTo: data.email,
     to: process.env.ADVERTISING_EMAIL ?? SITE.advertisingEmail,
   });

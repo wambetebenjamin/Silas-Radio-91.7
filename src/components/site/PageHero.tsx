@@ -26,10 +26,9 @@ export function PageHero({ eyebrow, title, description, breadcrumb, children }: 
       <div className="container">
         <Breadcrumbs items={[{ label: breadcrumb }]} />
         <div className="page-hero__content">
-          <div><p className="eyebrow"><span />{eyebrow}</p><h1>{title}</h1></div>
+          <div><p className="eyebrow">{eyebrow}</p><h1>{title}</h1></div>
           <div className="page-hero__intro"><p>{description}</p>{children}</div>
         </div>
-        <span className="page-hero__frequency" aria-hidden="true">91.7</span>
       </div>
     </section>
   );

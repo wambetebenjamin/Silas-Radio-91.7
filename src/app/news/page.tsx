@@ -8,5 +8,5 @@ export const revalidate = 120;
 export default async function NewsPage({ searchParams }: { searchParams: Promise<{ q?: string; category?: string }> }) {
   const params = await searchParams;
   const articles = (await getAllNews()).map(({ content, ...summary }) => { void content; return summary; });
-  return <><PageHero eyebrow="From the community desk" title="The city has a story." description="The people making things happen. The music bringing us together. A closer look at life on our side of the frequency." breadcrumb="Stories" /><section className="section section--white"><div className="container"><NewsCatalogue articles={articles} initialQuery={params.q} initialCategory={params.category} /></div></section></>;
+  return <><PageHero eyebrow="Community desk" title="News and stories" description="Reported and written in Nairobi by the Silas Radio community desk. Filter by category or search the archive." breadcrumb="Stories" /><section className="section section--white"><div className="container"><NewsCatalogue articles={articles} initialQuery={params.q} initialCategory={params.category} /></div></section></>;
 }

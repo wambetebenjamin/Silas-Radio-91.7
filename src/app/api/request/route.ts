@@ -5,7 +5,7 @@ import { RECAPTCHA_ACTIONS, verifyRecaptcha } from '@/lib/recaptcha';
 import { clientKey, fieldErrors, rateLimit, songRequestSchema } from '@/lib/validation';
 
 /**
- * POST /api/request — song request and dedication.
+ * POST /api/request: song request and dedication.
  *
  * Flow: rate limit → reCAPTCHA v3 (v2 fallback below 0.5) → validate →
  * save to Vercel KV → notify the studio (email + WhatsApp deep link).
@@ -70,10 +70,10 @@ export async function POST(request: Request) {
     captchaBypassed: captcha.bypassed ?? false,
   });
 
-  const summary = `New song request — ${data.name} (${data.phone})\nSong: ${data.songTitle} by ${data.artistName}\nShow: ${data.showTime}\nDedication: ${data.dedication || '—'}`;
+  const summary = `New song request: ${data.name} (${data.phone})\nSong: ${data.songTitle} by ${data.artistName}\nShow: ${data.showTime}\nDedication: ${data.dedication || 'not given'}`;
 
   const mail = await sendStudioMail({
-    subject: `Song request: ${data.songTitle} — ${data.artistName}`,
+    subject: `Song request: ${data.songTitle} by ${data.artistName}`,
     text: summary,
     replyTo: undefined,
   });
@@ -85,11 +85,11 @@ export async function POST(request: Request) {
     storage: storageConfigured ? 'kv' : 'local-buffer',
     notified: mail.ok,
     whatsappLink: studioWhatsappLink(summary),
-    message: 'Your request is with the studio. Keep listening — we read them out live.',
+    message: 'Your request is with the studio. Requests are read out during the shows.',
   });
 }
 
-/** GET /api/request — studio-side listing (requires STUDIO_API_TOKEN). */
+/** GET /api/request: studio-side listing (requires STUDIO_API_TOKEN). */
 export async function GET(request: Request) {
   const token = request.headers.get('x-studio-token');
   const expected = process.env.STUDIO_API_TOKEN;

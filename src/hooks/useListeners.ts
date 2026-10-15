@@ -7,7 +7,7 @@ import { SITE } from '@/lib/site';
  * Live listener count + presence (EFFECT-05).
  *
  * Transport: the /api/ws stream (Server-Sent Events on the Vercel Edge
- * runtime — Vercel does not hold WebSocket upgrades, see src/app/api/ws/route.ts
+ * runtime, because Vercel does not hold WebSocket upgrades. See src/app/api/ws/route.ts
  * for the note). Behaviour required by the brief:
  *
  *   - optimistic update on connect (count rises immediately, no spinner wait)

@@ -1,4 +1,4 @@
-# EFFECTS.md — archive note
+# EFFECTS.md: archive note
 
 **This document describes the first pass of this project and is retained for history only.**
 

@@ -1,4 +1,4 @@
-# Silas Radio 91.7 — silasradio917.co.ke
+# Silas Radio 91.7: silasradio917.co.ke
 
 Community radio for Nairobi: live stream, shows, presenters, podcasts, local news,
 contests and advertising. Built as a Next.js 15.1.x App Router application with
@@ -11,7 +11,7 @@ presenters, audio previews and articles. **[docs/DESIGN.md](./docs/DESIGN.md)** 
 shows which DJoz template page each route derives from, and lists the deliberate overrides.
 
 **Design source:** the uploaded ZIP was recovered, unpacked and documented before any code was
-written — see **[DESIGN-INSPECTION.md](./DESIGN-INSPECTION.md)** (archive forensics and source
+written, see **[DESIGN-INSPECTION.md](./DESIGN-INSPECTION.md)** (archive forensics and source
 inventory) and **[EFFECTS.md](./EFFECTS.md)** (note: the first pass's 31 effects were retired when
 the site was split into pages).
 
@@ -36,8 +36,8 @@ npm run dev                    # http://localhost:3000
 | `npm run verify:fonts` | Re-hash the 7 design-source WOFF files against the recorded digests |
 | `npm run verify:fonts:hashes` | Same, but exits non-zero on any divergence (use in CI) |
 | `npm run verify:images` | Check every shipped photo has a credit row in `image-credits.md` |
-| `npm run verify` | typecheck + font hashes + image credits + lint — the pre-push sweep |
-| `npm test` | Playwright browser suite (routes, navigation, filters, schedule tabs, forms, audio persistence, axe) — needs a build + running server |
+| `npm run verify` | typecheck + font hashes + image credits + lint: the pre-push sweep |
+| `npm test` | Playwright browser suite (routes, navigation, filters, schedule tabs, forms, audio persistence, axe): needs a build + running server |
 | `npm run test:install` | Download the Playwright Chromium build (skipped in minimal containers where a system Chromium is used) |
 | `npm run audit:rendered` | Static audit of the server-rendered HTML across all 23 routes (`npm run audit:rendered -- http://127.0.0.1:3100`) |
 | `node scripts/capture-screenshots.mjs` | Documentation screenshots into `docs/screenshots/` (uses `PLAYWRIGHT_CHROMIUM_PATH`/`BASE_URL`) |
@@ -50,10 +50,10 @@ npm run dev                    # http://localhost:3000
 | Item | Version | Notes |
 | --- | --- | --- |
 | Node | **24.x** | `.nvmrc` pins `24.0.0`; `engines.node` is `>=24.0.0`. Vercel reads `engines.node` and runs the latest 24.x. |
-| Next.js | **15.1.12** | The brief specifies 15.1.0. 15.1.0 carries CVE-2025-66478 (`npm deprecate` warns on install), so the build pins **15.1.12 — the patched release on the same 15.1.x line**, with no API changes. |
+| Next.js | **15.1.12** | The brief specifies 15.1.0. 15.1.0 carries CVE-2025-66478 (`npm deprecate` warns on install), so the build pins **15.1.12**, the patched release on the same 15.1.x line, with no API changes. |
 | React / React DOM | 19.0.0 | Required by Next 15.1.x |
 | TypeScript | 5.7.2 | strict mode |
-| Tailwind CSS | 3.4.17 | utilities only — the design system is CSS custom properties |
+| Tailwind CSS | 3.4.17 | utilities only: the design system is CSS custom properties |
 | PostCSS / Autoprefixer | 8.4.49 / 10.4.20 | |
 | Zustand | 5.0.2 | transient player state (no persistence of playback) |
 | @playwright/test / @axe-core/playwright | 1.56.1 / 4.11.0 | browser tests and accessibility checks |
@@ -111,12 +111,12 @@ says so.
 | `/api/captcha` | `POST`, `GET` | node | Standalone server-side verification. `GET` returns the public site key and the accepted action names. |
 | `/api/ws` | `GET`, `POST` | **edge** | Realtime listener count + presence. `GET` is an SSE stream; `?probe=1` reports transport capability; `POST` is a presence ping. |
 
-### About `/api/ws` — SSE on the Edge runtime
+### About `/api/ws`: SSE on the Edge runtime
 
 The brief asks for WebSockets on the Vercel Edge runtime. **Vercel does not hold WebSocket
 upgrades on Edge Functions**, so a `wss:` endpoint cannot live there. `/api/ws` therefore
-implements the *same push contract* over Server-Sent Events — which is exactly what a
-listener counter needs (server → client, one way) — and:
+implements the *same push contract* over Server-Sent Events, which is exactly what a
+listener counter needs (server → client, one way), and:
 
 * runs on the Edge runtime as specified (`export const runtime = 'edge'`);
 * exposes `GET /api/ws?probe=1` reporting `websocketUpgradeSupported: false` and any
@@ -125,7 +125,7 @@ listener counter needs (server → client, one way) — and:
   (`src/hooks/useListeners.ts`) and a graceful single-visitor state.
 
 If Silas Radio later deploys a socket service, the client needs only to prefer `SOCKET_URL`
-when the probe reports one — the store and UI contract do not change.
+when the probe reports one, the store and UI contract do not change.
 
 ---
 
@@ -149,22 +149,22 @@ when the probe reports one — the store and UI contract do not change.
 | `/request` | static | Song request + dedication form |
 | `/newsletter` | static | Weekly playlist signup |
 | `/advertise` | dynamic | Packages, process, enquiry form (`?package=` preselects a package) |
-| `/contests` | static | Past giveaway shown as closed — no entry form |
+| `/contests` | static | Past giveaway shown as closed: no entry form |
 | `/contact` | static | Contact details + message form |
 | `/register` | static, `noindex` | Accounts not open; no password collection |
 | `/legal/privacy-policy`, `/legal/terms`, `/legal/cookie-policy` | static | Station policies |
-| `/sitemap.xml` | dynamic | Every real route, presenter, show, preview and article — no hashes or query aliases |
+| `/sitemap.xml` | dynamic | Every real route, presenter, show, preview and article: no hashes or query aliases |
 | `/robots.txt` | static | Allows content, disallows `/api/` and `/register` |
 | `/manifest.webmanifest` | static | PWA manifest with three shortcuts |
-| `not-found`, `error`, `global-error` | — | Off-air and 404 states in the new visual system |
-| `next.config.mjs` redirects | — | Legacy `*.html` template URLs, `/live`, `/privacy`, `/terms`, `/cookies` |
+| `not-found`, `error`, `global-error` | n/a | Off-air and 404 states in the new visual system |
+| `next.config.mjs` redirects | n/a | Legacy `*.html` template URLs, `/live`, `/privacy`, `/terms`, `/cookies` |
 
 Old one-page bookmarks still work: a small client shim maps the former `#schedule`, `#presenters`,
 `#request`, `#gallery` … anchors and `?presenter=<slug>` links onto the new routes.
 
 ---
 
-## 6. Fonts — extracted and reproduced exactly
+## 6. Fonts: extracted and reproduced exactly
 
 Seven WOFF files are copied **byte-for-byte** from the design source into `public/fonts/`
 and re-declared with the source's own family names in `src/app/globals.css`:
@@ -182,7 +182,7 @@ and re-declared with the source's own family names in `src/app/globals.css`:
 `npm run verify:fonts` re-hashes all seven and fails loudly if any byte moves. The
 Rockville display face is also used to render the PWA icons (`scripts/generate-assets.py`).
 
-Rajdhani — loaded from the Google Fonts CDN by the template — is self-hosted at the same four
+Rajdhani, loaded from the Google Fonts CDN by the template, is self-hosted at the same four
 weights (400/500/600/700) via `@fontsource/rajdhani`. Documented override, same family and
 weights; rationale in DESIGN-INSPECTION.md §12.
 
@@ -222,7 +222,7 @@ day-tab switching, status pulse) and the single reduced-motion block that shorte
 
 * **Server-rendered, no JavaScript required** for: header, hero copy and CTAs, shows, schedule,
   presenters, story list, packages, legal pages, footer.
-* **Interactive pieces only where they earn it** — filters, day tabs, the audio player and forms.
+* **Interactive pieces only where they earn it**: filters, day tabs, the audio player and forms.
 * `three` and `wavesurfer.js` are gone from `package.json`; the player is a native `<audio>`.
 
 ---
@@ -231,11 +231,11 @@ day-tab switching, status pulse) and the single reduced-motion block that shorte
 
 Two independent checks:
 
-* `node scripts/audit-rendered.mjs` — static audit of the server-rendered HTML for all 23 routes:
+* `node scripts/audit-rendered.mjs`: static audit of the server-rendered HTML for all 23 routes:
   one `<h1>` per page, `alt` on every image, accessible names on every button and link,
   label wiring (including wrapping `<label>`) on every field, skip link, `lang="en-KE"` and live
   regions. Current status: **0 pages with structural problems**.
-* `npm test` — Playwright + `@axe-core/playwright` on desktop and mobile viewports, asserting no
+* `npm test`: Playwright + `@axe-core/playwright` on desktop and mobile viewports, asserting no
   serious or critical WCAG 2.1 A/AA violations on `/`, `/schedule`, `/listen`, `/request`, `/contests`
   and checking headings, navigation landmarks and the player element on every route.
 
@@ -275,14 +275,14 @@ Schedule. Registration happens in production only, deferred to the `load` event.
 1. Import the repository. Vercel reads `engines.node` (`>=24.0.0`) and `.nvmrc` (`24.0.0`).
 2. Add the environment variables from §3 (Vercel KV/Upstash, reCAPTCHA, SMTP, WhatsApp).
 3. Deploy. `vercel.json` supplies:
-   * **Security headers** on every route — HSTS, `X-Content-Type-Options`, `X-Frame-Options`,
+   * **Security headers** on every route, HSTS, `X-Content-Type-Options`, `X-Frame-Options`,
      `Referrer-Policy`, `Permissions-Policy` (camera + `xr-spatial-tracking` allowed for the AR
      tour, microphone denied), COOP and a CSP scoped to self + Google (reCAPTCHA + Maps).
-   * **Cache policy** — immutable fonts, 7-day images, range-friendly audio, `no-store` APIs.
-   * **Function config** — `/api/ws` on the Edge runtime, 30s max duration.
-   * **Redirects** — legacy `.html` template URLs, `/live` → `/listen`, `/privacy`, `/terms`,
+   * **Cache policy**: immutable fonts, 7-day images, range-friendly audio, `no-store` APIs.
+   * **Function config**: `/api/ws` on the Edge runtime, 30s max duration.
+   * **Redirects**: legacy `.html` template URLs, `/live` → `/listen`, `/privacy`, `/terms`,
      `/cookies` (see §5). `/listen` is a real page now, so `vercel.json` no longer redirects it.
-   * **No cron jobs** — works on the Vercel Hobby plan. `/api/now-playing` is request-time
+   * **No cron jobs**: works on the Vercel Hobby plan. `/api/now-playing` is request-time
      (`force-dynamic`), so every hit computes fresh metadata; no scheduled warm-up is required.
 4. Post-deploy checks: `/api/ws?probe=1`, `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`.
 
@@ -334,7 +334,7 @@ design) and `npm run audit:rendered` reports **0 pages with structural problems*
 
 * Template/design source: **Colorlib "DJoz"** (see `design-source/Djoz-master/readme.txt` for
   the template's own licence notice, retained unaltered in the archive).
-* Photography: **Pexels** and **Unsplash** only — no AI images; full list in
+* Photography: **Pexels** and **Unsplash** only, no AI images; full list in
   [image-credits.md](./image-credits.md).
 * Icons: **Lucide 0.468.0** only.
 * Audio in `public/audio/stream/`: sample music taken from the design source's `music-files/`.

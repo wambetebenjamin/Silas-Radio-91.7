@@ -12,7 +12,7 @@ interface Field { name: string; label: string; type?: string; optional?: boolean
 interface FormConfig { action: RecaptchaAction; title: string; description: string; submit: string; fields: Field[] }
 const CONFIG: Record<FormMode, FormConfig> = {
   contact: {
-    action: 'contact_form', title: 'What’s on your mind?', description: 'News tips, music submissions, feedback or just a hello. Send a note to the studio.', submit: 'Send your message',
+    action: 'contact_form', title: 'Send the studio a message', description: 'News tips, music submissions, feedback and general enquiries all arrive here.', submit: 'Send your message',
     fields: [
       { name: 'name', label: 'Your name', autoComplete: 'name', maxLength: 80 },
       { name: 'email', label: 'Email address', type: 'email', autoComplete: 'email', maxLength: 160 },
@@ -22,18 +22,18 @@ const CONFIG: Record<FormMode, FormConfig> = {
     ],
   },
   request: {
-    action: 'song_request', title: 'Put it on the playlist.', description: 'Tell us what you want to hear and who it’s for. Requests are subject to the show’s playlist.', submit: 'Send to the studio',
+    action: 'song_request', title: 'Send a song request', description: 'Tell us what you want to hear and who it is for. Presenters keep the final say on their playlist.', submit: 'Send to the studio',
     fields: [
       { name: 'name', label: 'Your name', autoComplete: 'name', maxLength: 80 },
       { name: 'phone', label: 'Phone number', type: 'tel', autoComplete: 'tel', placeholder: '0712 345 678', maxLength: 30 },
       { name: 'songTitle', label: 'Song title', maxLength: 140 },
       { name: 'artistName', label: 'Artist', maxLength: 140 },
       { name: 'dedication', label: 'A dedication', type: 'textarea', optional: true, wide: true, placeholder: 'Who are we playing it for?', maxLength: 600 },
-      { name: 'showTime', label: 'Preferred show', type: 'select', wide: true, options: [{ value: 'Any show', label: 'Any show — surprise me' }, ...SCHEDULE.map((show) => ({ value: `${show.name} — ${show.start}–${show.end}`, label: `${show.name} · ${show.start}–${show.end} EAT` }))] },
+      { name: 'showTime', label: 'Preferred show', type: 'select', wide: true, options: [{ value: 'Any show', label: 'Any show' }, ...SCHEDULE.map((show) => ({ value: `${show.name} ${show.start}–${show.end}`, label: `${show.name} · ${show.start}–${show.end} EAT` }))] },
     ],
   },
   advertise: {
-    action: 'advertising_enquiry', title: 'Let’s make some noise.', description: 'Tell us about your business and what a successful campaign would look like.', submit: 'Request a proposal',
+    action: 'advertising_enquiry', title: 'Request a proposal', description: 'Tell us about your business and what a successful campaign would look like.', submit: 'Request a proposal',
     fields: [
       { name: 'company', label: 'Business or organisation', autoComplete: 'organization', maxLength: 120 },
       { name: 'contactName', label: 'Your name', autoComplete: 'name', maxLength: 80 },
@@ -45,10 +45,10 @@ const CONFIG: Record<FormMode, FormConfig> = {
     ],
   },
   newsletter: {
-    action: 'newsletter_signup', title: 'The weekly playlist', description: '', submit: 'Count me in',
+    action: 'newsletter_signup', title: 'The weekly playlist', description: '', submit: 'Sign me up',
     fields: [
       { name: 'email', label: 'Your email address', type: 'email', autoComplete: 'email', placeholder: 'you@example.com', maxLength: 160 },
-      { name: 'genre', label: 'Your kind of music', type: 'select', options: [{ value: 'all', label: 'A little of everything' }, { value: 'afrobeat', label: 'Afrobeat' }, { value: 'benga', label: 'Benga' }, { value: 'gengetone', label: 'Gengetone' }, { value: 'bongo-flava', label: 'Bongo flava' }, { value: 'gospel', label: 'Gospel' }, { value: 'hip-hop', label: 'Hip-hop' }, { value: 'rnb', label: 'R&B / Soul' }, { value: 'reggae', label: 'Reggae' }] },
+      { name: 'genre', label: 'Your kind of music', type: 'select', options: [{ value: 'all', label: 'A mix of everything' }, { value: 'afrobeat', label: 'Afrobeat' }, { value: 'benga', label: 'Benga' }, { value: 'gengetone', label: 'Gengetone' }, { value: 'bongo-flava', label: 'Bongo flava' }, { value: 'gospel', label: 'Gospel' }, { value: 'hip-hop', label: 'Hip-hop' }, { value: 'rnb', label: 'R&B / Soul' }, { value: 'reggae', label: 'Reggae' }] },
     ],
   },
 };

@@ -3,7 +3,7 @@
  *
  * Lucide is the only icon set on this site (0.468.0). WhatsApp and a couple of
  * brand marks have no Lucide equivalent, so they are drawn here as plain
- * inline SVG paths with the same stroke conventions (24px grid, 2px stroke) —
+ * inline SVG paths with the same stroke conventions (24px grid, 2px stroke),
  * no icon font, no decoration, no sparkles.
  */
 

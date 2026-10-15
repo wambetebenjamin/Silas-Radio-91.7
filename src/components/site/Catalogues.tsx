@@ -28,19 +28,19 @@ function Filters({ categories, allLabel, query, category, update, searchLabel }:
 }
 
 function NoResults({ clear }: { clear: () => void }) {
-  return <div className="empty-state"><h3>Nothing on this frequency yet.</h3><p>Try another search or explore a different category.</p><button type="button" className="button button--outline" onClick={clear}>Clear filters</button></div>;
+  return <div className="empty-state"><h3>No matches</h3><p>Try a different search term, or choose another category.</p><button type="button" className="button button--outline" onClick={clear}>Clear filters</button></div>;
 }
 
 export function ShowCatalogue({ initialQuery = '', initialCategory = 'all' }: { initialQuery?: string; initialCategory?: string }) {
   const filters = useFilters(initialQuery, ['Music', 'Community', 'Culture'].includes(initialCategory) ? initialCategory : 'all');
   const visible = SHOWS.filter((show) => (filters.category === 'all' || show.category === filters.category) && `${show.name} ${show.presenter} ${show.description}`.toLowerCase().includes(filters.query.toLowerCase().trim()));
-  return <><Filters {...filters} categories={['Music', 'Community', 'Culture']} allLabel="All shows" searchLabel="Find a show or presenter" /><p className="result-count" role="status">{visible.length} {visible.length === 1 ? 'show' : 'shows'} on your frequency</p><div className="grid-three catalogue-grid">{visible.map((show) => <ShowCard key={show.id} show={show} />)}{!visible.length && <NoResults clear={() => filters.update('', 'all')} />}</div></>;
+  return <><Filters {...filters} categories={['Music', 'Community', 'Culture']} allLabel="All shows" searchLabel="Search shows and presenters" /><p className="result-count" role="status">{visible.length} {visible.length === 1 ? 'show' : 'shows'}</p><div className="grid-three catalogue-grid">{visible.map((show) => <ShowCard key={show.id} show={show} />)}{!visible.length && <NoResults clear={() => filters.update('', 'all')} />}</div></>;
 }
 
 export function PodcastCatalogue({ initialQuery = '', initialCategory = 'all' }: { initialQuery?: string; initialCategory?: string }) {
   const filters = useFilters(initialQuery, ['Music', 'Community', 'Culture'].includes(initialCategory) ? initialCategory : 'all');
   const visible = EPISODES.filter((episode) => (filters.category === 'all' || episode.category === filters.category) && `${episode.title} ${SHOWS.find((show) => show.id === episode.showId)?.name}`.toLowerCase().includes(filters.query.toLowerCase().trim()));
-  return <><Filters {...filters} categories={['Music', 'Community', 'Culture']} allLabel="All previews" searchLabel="Search the listening library" /><p className="result-count" role="status">{visible.length} audio {visible.length === 1 ? 'preview' : 'previews'}</p><div className="grid-three catalogue-grid">{visible.map((episode) => <EpisodeCard key={episode.slug} episode={episode} />)}{!visible.length && <NoResults clear={() => filters.update('', 'all')} />}</div></>;
+  return <><Filters {...filters} categories={['Music', 'Community', 'Culture']} allLabel="All previews" searchLabel="Search the library" /><p className="result-count" role="status">{visible.length} audio {visible.length === 1 ? 'preview' : 'previews'}</p><div className="grid-three catalogue-grid">{visible.map((episode) => <EpisodeCard key={episode.slug} episode={episode} />)}{!visible.length && <NoResults clear={() => filters.update('', 'all')} />}</div></>;
 }
 
 export function NewsCatalogue({ articles, initialQuery = '', initialCategory = 'all' }: { articles: ArticleSummary[]; initialQuery?: string; initialCategory?: string }) {

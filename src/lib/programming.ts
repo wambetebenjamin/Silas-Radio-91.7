@@ -5,43 +5,43 @@ export type ShowCategory = 'Music' | 'Community' | 'Culture';
 const EDITORIAL: Record<string, { category: ShowCategory; image: string; note: string }> = {
   'amaka-early': {
     category: 'Community', image: '/images/presenters/presenter-mary.jpg',
-    note: 'Before the first matatu fills up, Mary is at the microphone. Start your day with the conversations, local updates and familiar records that make the early alarm worth it.',
+    note: 'Mary is on the microphone before the first matatu fills up, with local updates, listener calls and the records early commuters ask for.',
   },
   'midday-community': {
     category: 'Community', image: '/images/culture/community-interview.jpg',
-    note: 'A seat at the table for every neighbourhood. Zawadi makes room for community organisers, local questions and the everyday stories that deserve to be heard.',
+    note: 'Zawadi gives community organisers, residents and ward leaders a seat at the table, and takes questions from listeners across the city.',
   },
   'sheng-express': {
     category: 'Culture', image: '/images/presenters/presenter-brian.jpg',
-    note: 'The city has its own language, and its own rhythm. Brian brings both to your journey home, with fresh releases, listener dedications and a conversation that never stands still.',
+    note: 'Brian hosts the commute home in Sheng, mixing new East African releases with listener dedications and shout-outs.',
   },
   'genre-night': {
     category: 'Music', image: '/images/studio/turntable-closeup.jpg',
-    note: 'One genre. A whole world to discover. Grace goes beyond the hits to connect the records, the artists and the stories behind East Africa’s most distinctive sounds.',
+    note: 'Grace plays one genre a night and goes past the hits, explaining which Nairobi studio recorded the track, who produced it and where the artist came from.',
   },
   'friday-heat': {
     category: 'Music', image: '/images/culture/festival-night.jpg',
-    note: 'Leave the working week behind. Kevin takes over the decks for a Friday-night mix of East African favourites, new discoveries and your weekend shout-outs.',
+    note: 'Kevin takes over the decks to open the weekend, with a four-and-a-half-hour mix of East African favourites and listener shout-outs.',
   },
   'saturday-market': {
     category: 'Culture', image: '/images/culture/djembe-street-musician.jpg',
-    note: 'Meet the people who make the city move. Tom follows the food, the fashion and the conversations from the market floor into your Saturday morning.',
+    note: 'Tom broadcasts from the market floor, following the traders, cooks and tailors who work Nairobi’s Saturday economy.',
   },
   'nairobi-nights': {
     category: 'Music', image: '/images/culture/nairobi-skyline.jpg',
-    note: 'When the city slows down, the stories get a little longer. Settle into Saturday evening with Zawadi, slow jams and space to breathe.',
+    note: 'A slower Saturday night show. Zawadi plays soul, R&B and Kenyan slow jams, with longer interviews and fewer interruptions.',
   },
   'sunday-reflections': {
     category: 'Community', image: '/images/presenters/presenter-mary.jpg',
-    note: 'A gentler start to Sunday. Mary brings together conversations about faith, family and the small acts of service that hold a community together.',
+    note: 'Mary hosts a Sunday morning of conversation about faith, family and community work, with music between the interviews.',
   },
   'diaspora-window': {
     category: 'Community', image: '/images/culture/nairobi-expressway.jpg',
-    note: 'However far you travel, there is a little Nairobi in your day. Brian connects voices across time zones for a Sunday conversation with home.',
+    note: 'A Sunday show for Kenyans who live abroad. Brian takes calls across time zones and reports what is happening back home.',
   },
   'overnight-mix': {
     category: 'Music', image: '/images/studio/studio-vocal-booth.jpg',
-    note: 'For the night shift, the late drive and the moments between. A continuous selection of East African music, curated by Kevin, keeps you company until morning.',
+    note: 'A continuous run of East African music for the night shift or the late drive, selected by Kevin, from midnight until 05:00.',
   },
 };
 
@@ -52,8 +52,8 @@ export const getPresenter = (slug: string) => PRESENTERS.find((presenter) => pre
 
 export function showDays(days: readonly Day[]): string {
   if (days.length === 7) return 'Every day';
-  if (days.join(',') === DAYS.slice(0, 5).join(',')) return 'Mon – Fri';
-  if (days.join(',') === DAYS.slice(0, 4).join(',')) return 'Mon – Thu';
+  if (days.join(',') === DAYS.slice(0, 5).join(',')) return 'Mon to Fri';
+  if (days.join(',') === DAYS.slice(0, 4).join(',')) return 'Mon to Thu';
   return days.map((day) => day.slice(0, 3)).join(' & ');
 }
 
@@ -102,20 +102,20 @@ export function broadcastAt(now: Date) {
 /** The supplied archive includes sample music, not published station recordings. */
 export const EPISODES = [
   {
-    slug: 'amaka-early-preview', showId: 'amaka-early', title: 'Start your day on our frequency',
-    description: 'Explore the Amaka Early Drive listening experience with this sample audio.',
+    slug: 'amaka-early-preview', showId: 'amaka-early', title: 'The Amaka Early Drive preview',
+    description: 'Sample audio supplied with the design archive, used here to demonstrate the on-demand player.',
     image: '/images/studio/broadcast-mic-green.jpg', audio: '/audio/stream/demo-01.mp3',
     category: 'Community' as ShowCategory, number: '01',
   },
   {
-    slug: 'genre-night-preview', showId: 'genre-night', title: 'A little deeper into the crates',
-    description: 'Try the on-demand player while discovering the world of Genre Night.',
+    slug: 'genre-night-preview', showId: 'genre-night', title: 'The Genre Night preview',
+    description: 'Sample audio supplied with the design archive, paired with the Genre Night show page.',
     image: '/images/studio/turntable-closeup.jpg', audio: '/audio/stream/demo-02.mp3',
     category: 'Music' as ShowCategory, number: '02',
   },
   {
-    slug: 'sheng-express-preview', showId: 'sheng-express', title: 'Take the city with you',
-    description: 'Get a feel for listening on the move with the Sheng Express audio preview.',
+    slug: 'sheng-express-preview', showId: 'sheng-express', title: 'The Sheng Express preview',
+    description: 'Sample audio supplied with the design archive, paired with the Sheng Express show page.',
     image: '/images/presenters/presenter-brian.jpg', audio: '/audio/stream/demo-03.mp3',
     category: 'Culture' as ShowCategory, number: '03',
   },

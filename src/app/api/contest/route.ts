@@ -6,7 +6,7 @@ import { RECAPTCHA_ACTIONS, verifyRecaptcha } from '@/lib/recaptcha';
 import { clientKey, contestEntrySchema, fieldErrors, rateLimit } from '@/lib/validation';
 
 /**
- * POST /api/contest — contest / giveaway entry.
+ * POST /api/contest: contest / giveaway entry.
  * reCAPTCHA v3 (v2 fallback < 0.5) → validate → save to KV → confirm.
  */
 export async function POST(request: Request) {
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     captchaBypassed: captcha.bypassed ?? false,
   });
 
-  const summary = `Contest entry — ${data.contestSlug}\n${data.name} · ${data.phone} · ${data.email}\nAnswer: ${data.answer}`;
+  const summary = `Contest entry: ${data.contestSlug}\n${data.name} · ${data.phone} · ${data.email}\nAnswer: ${data.answer}`;
   const mail = await sendStudioMail({
     subject: `Contest entry: ${data.contestSlug}`,
     text: summary,
@@ -84,6 +84,6 @@ export async function POST(request: Request) {
     storage: storageConfigured ? 'kv' : 'local-buffer',
     notified: mail.ok,
     whatsappLink: studioWhatsappLink(summary),
-    message: 'You are in the draw. Winners are announced on air — keep your phone close.',
+    message: 'You are in the draw. Winners are announced on air, so keep your phone close.',
   });
 }

@@ -30,7 +30,7 @@ const EXPECTED = {
 const strict = process.argv.includes('--strict');
 let failures = 0;
 
-console.log('Silas Radio 91.7 — font integrity check (7 files)\n');
+console.log('Silas Radio 91.7: font integrity check (7 files)\n');
 for (const [file, expect] of Object.entries(EXPECTED)) {
   const abs = join(root, 'public', 'fonts', file);
   if (!existsSync(abs)) {
@@ -45,7 +45,7 @@ for (const [file, expect] of Object.entries(EXPECTED)) {
   if (okBytes && okSha) {
     console.log(`  OK       ${file.padEnd(22)} ${buf.byteLength} bytes  ${sha.slice(0, 16)}…  ${expect.family}`);
   } else {
-    console.log(`  MISMATCH ${file} — bytes ${buf.byteLength}/${expect.bytes}, sha ${sha.slice(0, 16)}…/${expect.sha256.slice(0, 16)}…`);
+    console.log(`  MISMATCH ${file}: bytes ${buf.byteLength}/${expect.bytes}, sha ${sha.slice(0, 16)}…/${expect.sha256.slice(0, 16)}…`);
     failures++;
   }
 }

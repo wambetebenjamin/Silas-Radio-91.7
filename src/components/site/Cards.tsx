@@ -10,10 +10,10 @@ export function ShowCard({ show }: { show: Show }) {
   return (
     <article className="show-card">
       <Link href={`/shows/${show.id}`} className="show-card__image" aria-label={`Explore ${show.name}`}>
-        <Image src={show.image} alt={`${show.name} — ${show.presenter}`} fill sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw" />
+        <Image src={show.image} alt={`${show.name} with ${show.presenter}`} fill sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw" />
         <span className="image-tag">{show.category}</span><span className="circle-arrow"><ArrowUpRight size={20} aria-hidden="true" /></span>
       </Link>
-      <div className="show-card__meta"><span>{showDays(show.days)}</span><span>{show.start} – {show.end} EAT</span></div>
+      <div className="show-card__meta"><span>{showDays(show.days)}</span><span>{show.start}–{show.end} EAT</span></div>
       <h3><Link href={`/shows/${show.id}`}>{show.name}</Link></h3><p>With {show.presenter}</p>
     </article>
   );
@@ -44,7 +44,7 @@ export function EpisodeCard({ episode }: { episode: Episode }) {
   return (
     <article className="episode-card">
       <div className="episode-card__cover"><Image src={episode.image} alt={`Audio preview artwork for ${show.name}`} fill sizes="(max-width: 600px) 100vw, 33vw" /><span className="episode-card__number">{episode.number}</span><span className="image-tag">Audio preview</span><EpisodePlayButton episode={episode} iconOnly /></div>
-      <p className="eyebrow">{show.name}</p><h3><Link href={`/podcasts/${episode.slug}`}>{episode.title}</Link></h3><p>{show.presenter} <span aria-hidden="true">·</span> Sample audio</p><Link href={`/podcasts/${episode.slug}`} className="text-link">About this preview <ArrowUpRight size={15} aria-hidden="true" /></Link>
+      <p className="eyebrow">{show.name}</p><h3><Link href={`/podcasts/${episode.slug}`}>{episode.title}</Link></h3><p>{show.presenter} <span aria-hidden="true">·</span> Sample audio only</p><Link href={`/podcasts/${episode.slug}`} className="text-link">About this preview <ArrowUpRight size={15} aria-hidden="true" /></Link>
     </article>
   );
 }

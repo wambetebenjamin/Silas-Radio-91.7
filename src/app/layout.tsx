@@ -16,7 +16,7 @@ import { StationJsonLd } from '@/components/JsonLd';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} — Your city. Your sound.`,
+    default: `${SITE.name} | Community radio from Nairobi`,
     template: `%s | ${SITE.name}`,
   },
   description:
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     locale: SITE.locale,
     url: SITE.url,
     siteName: SITE.name,
-    title: `${SITE.name} — Live from Nairobi, 91.7 FM and online`,
+    title: `${SITE.name} | Live from Nairobi on 91.7 FM`,
     description: SITE.subtext,
     images: [
       {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE.name} — Live from Nairobi`,
+    title: `${SITE.name} | Live from Nairobi`,
     description: SITE.subtext,
     images: ['/images/culture/nairobi-skyline.jpg'],
   },
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#19151f',
+  themeColor: '#111111',
   width: 'device-width',
   initialScale: 1,
   colorScheme: 'light',

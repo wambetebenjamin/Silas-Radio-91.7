@@ -83,8 +83,8 @@ export function useFormSubmit<T = { message?: string }>(action: RecaptchaAction,
         setResult({
           state: 'success',
           message: body.persisted === false && !body.notified
-            ? 'Preview only — your details have not been delivered to the studio. Please use email or WhatsApp instead.'
-            : body.message ?? 'Thank you — the studio has your message.',
+            ? 'Preview only. Your details have not been delivered to the studio. Please use email or WhatsApp instead.'
+            : body.message ?? 'Thank you. The studio has your message.',
           fields: {},
           data: body,
         });

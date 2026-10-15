@@ -4,7 +4,7 @@ import { SITE } from '@/lib/site';
 
 /**
  * Last-resort boundary for faults in the root layout itself.
- * Inline styles only — no design-system CSS is guaranteed at this point.
+ * Inline styles only, because no design-system CSS is guaranteed at this point.
  */
 export default function GlobalError({
   error,
@@ -34,7 +34,7 @@ export default function GlobalError({
           </p>
           <h1 style={{ fontSize: 32, margin: '12px 0' }}>We are off-air temporarily. Back soon.</h1>
           <p style={{ maxWidth: 520, margin: '0 auto 24px', opacity: 0.85 }}>
-            Something failed before the page could load. The station is still on air — try again, or
+            Something failed before the page could load. The station is still on air, so try again or
             reach the studio on WhatsApp.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>

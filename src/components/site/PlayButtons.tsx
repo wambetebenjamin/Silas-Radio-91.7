@@ -14,7 +14,7 @@ export function episodeTrack(episode: Episode): Track {
   };
 }
 
-export function LivePlayButton({ className = 'button button--lime', children }: { className?: string; children?: React.ReactNode }) {
+export function LivePlayButton({ className = 'button button--accent', children }: { className?: string; children?: React.ReactNode }) {
   const current = usePlayerStore((state) => state.track.id);
   const playing = usePlayerStore((state) => state.isPlaying);
   const active = current === DEFAULT_TRACK.id && playing;

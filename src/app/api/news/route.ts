@@ -5,16 +5,16 @@ import { NEWS_REVALIDATE_SECONDS, getAllNews } from '@/lib/news';
 export const revalidate = 120;
 
 /**
- * GET /api/news — MDX articles as JSON.
+ * GET /api/news: MDX articles as JSON.
  *
  * The HTML pages (/news and /news/[slug]) are generated statically with
  * ISR revalidate 120; this endpoint exposes the same content to clients and
  * lets an external dashboard verify what is published.
  *
  * Query params:
- *   ?limit=6       — cap the number of items
- *   ?category=...  — filter by frontmatter category
- *   ?slug=...      — return a single article body
+ *   ?limit=6       cap the number of items
+ *   ?category=...  filter by frontmatter category
+ *   ?slug=...      return a single article body
  */
 export async function GET(request: Request) {
   const url = new URL(request.url);

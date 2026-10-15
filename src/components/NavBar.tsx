@@ -33,7 +33,7 @@ export function NavBar() {
   const close = () => { setMobileOpen(false); setMoreOpen(false); };
   return (
     <>
-      <div className="station-bar"><div className="container"><span><span className="status-dot" />FROM NAIROBI, WITH LOVE.</span><span>91.7 FM <i /> EAST AFRICAN MUSIC. EVERY DAY.</span><Link href="/contact">Say hello <ArrowUpRight size={12} aria-hidden="true" /></Link></div></div>
+      <div className="station-bar"><div className="container"><span><span className="status-dot" />91.7 FM · NAIROBI, KENYA</span><span>EAST AFRICAN MUSIC <i /> COMMUNITY RADIO</span><Link href="/contact">Contact the studio <ArrowUpRight size={12} aria-hidden="true" /></Link></div></div>
       <header className="site-header">
         <div className="container site-header__inner">
           <Link href="/" aria-label="Silas Radio 91.7 home" onClick={close}><Brand light /></Link>
@@ -42,20 +42,20 @@ export function NavBar() {
             <div className="nav-more" ref={moreRef} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setMoreOpen(false); }}>
               <button type="button" ref={moreButton} aria-expanded={moreOpen} aria-controls="explore-menu" className={EXPLORE_NAV.some((item) => isActivePath(pathname, item.href)) ? 'is-active' : ''} onClick={() => setMoreOpen(!moreOpen)}>Explore <ChevronDown size={13} aria-hidden="true" /></button>
               <div id="explore-menu" className="nav-dropdown" hidden={!moreOpen}>
-                <span className="eyebrow">More on your frequency</span>
+                <span className="eyebrow">Explore</span>
                 {EXPLORE_NAV.map((item) => <Link key={item.href} href={item.href} onClick={close} aria-current={isActivePath(pathname, item.href) ? 'page' : undefined}>{item.label}<ArrowUpRight size={14} aria-hidden="true" /></Link>)}
               </div>
             </div>
           </nav>
           <div className="site-header__actions">
-            <Link className="button button--lime button--small" href="/listen" onClick={close}><Radio size={16} aria-hidden="true" /><span>Listen live</span></Link>
+            <Link className="button button--accent button--small" href="/listen" onClick={close}><Radio size={16} aria-hidden="true" /><span>Listen live</span></Link>
             <button className="menu-toggle" type="button" ref={mobileButton} aria-controls="mobile-navigation" aria-expanded={mobileOpen} aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} onClick={() => setMobileOpen(!mobileOpen)}>{mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}</button>
           </div>
         </div>
         <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation" hidden={!mobileOpen}>
           <div className="container">
             {PRIMARY_NAV.map((item) => <Link key={item.href} href={item.href} onClick={close} aria-current={isActivePath(pathname, item.href) ? 'page' : undefined}>{item.label}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}
-            <span className="eyebrow">Explore the station</span>
+            <span className="eyebrow">Explore</span>
             {EXPLORE_NAV.map((item) => <Link key={item.href} href={item.href} onClick={close} aria-current={isActivePath(pathname, item.href) ? 'page' : undefined}>{item.label}<ArrowUpRight size={16} aria-hidden="true" /></Link>)}
           </div>
         </nav>

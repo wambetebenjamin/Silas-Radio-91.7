@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <p>
             This policy explains what we collect when you listen, request a song, enter a contest,
-            subscribe to our newsletter, submit an advertising enquiry or contact the studio — and
+            subscribe to our newsletter, submit an advertising enquiry or contact the studio, and
             what you can ask us to do about it.
           </p>
 
@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
           <p>
             <strong>What we collect.</strong> When you press play we record a live listener count (how
             many streams are open right now) and, in aggregate, which shows and times people listen
-            to. The live count is a number — it is not linked to your name, email address or phone
+            to. The live count is a number. It is not linked to your name, email address or phone
             number. Your player also stores your volume, playback speed and last channel in your own
             browser (local storage) so the station sounds the same when you return.
           </p>
@@ -117,7 +117,7 @@ export default function PrivacyPolicyPage() {
             issue with the genre you chose.
           </p>
           <p>
-            <strong>Legal basis.</strong> Consent — the newsletter is opt-in only, and every email
+            <strong>Legal basis.</strong> Consent: the newsletter is opt-in only, and every email
             contains a one-click unsubscribe link.
           </p>
           <p>
@@ -153,33 +153,33 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul>
             <li>
-              <strong>Be informed</strong> — this policy, and the notices shown on each form, tell you
+              <strong>Be informed.</strong> This policy, and the notices shown on each form, tell you
               what happens to your data before you submit it.
             </li>
             <li>
-              <strong>Access</strong> — ask for a copy of the personal data we hold about you.
+              <strong>Access.</strong> Ask for a copy of the personal data we hold about you.
             </li>
             <li>
-              <strong>Rectify</strong> — ask us to correct data that is inaccurate or incomplete.
+              <strong>Rectify.</strong> Ask us to correct data that is inaccurate or incomplete.
             </li>
             <li>
-              <strong>Erase</strong> — ask us to delete your request, contest entry or newsletter
+              <strong>Erase.</strong> Ask us to delete your request, contest entry or newsletter
               subscription.
             </li>
             <li>
-              <strong>Object or restrict</strong> — object to processing based on legitimate interests,
+              <strong>Object or restrict.</strong> Object to processing based on legitimate interests,
               or ask us to pause it while a complaint is resolved.
             </li>
             <li>
-              <strong>Portability</strong> — receive the data you gave us in a structured, machine
+              <strong>Portability.</strong> Receive the data you gave us in a structured, machine
               readable format.
             </li>
             <li>
-              <strong>Withdraw consent</strong> — at any time, without affecting the lawfulness of what
+              <strong>Withdraw consent.</strong> At any time, without affecting the lawfulness of what
               happened before.
             </li>
             <li>
-              <strong>Complain</strong> — to the {LEGAL.dataProtectionAuthority}. We would rather you
+              <strong>Complain.</strong> To the {LEGAL.dataProtectionAuthority}. We would rather you
               came to us first, but you do not have to.
             </li>
           </ul>
@@ -222,7 +222,7 @@ export default function PrivacyPolicyPage() {
           <h2 id="changes">8. Changes to this policy</h2>
           <p>
             When we change how we handle personal data we update this page and the "last updated"
-            date above, and — for anything significant — we say so on air and in the newsletter.
+            date above. For anything significant we say so on air and in the newsletter.
             Related documents: <Link href="/legal/cookie-policy">Cookie Policy</Link> and{' '}
             <Link href="/legal/terms">Terms and Conditions</Link>.
           </p>

@@ -1,8 +1,8 @@
-# Image credits — Silas Radio 91.7
+# Image credits: Silas Radio 91.7
 
 All photography is from **Pexels** or **Unsplash** only (free licenses). No AI-generated imagery is used anywhere in this project.
 
-Downloaded and stored locally in `public/images/**` — no hotlinking.
+Downloaded and stored locally in `public/images/**`, no hotlinking.
 
 | File in repo | Source | Photo page | Photographer credit |
 | --- | --- | --- | --- |
@@ -43,11 +43,11 @@ Downloaded and stored locally in `public/images/**` — no hotlinking.
 
 ## Licenses
 
-- **Pexels License** — free to use, no attribution required (credit given voluntarily above). https://www.pexels.com/license/
-- **Unsplash License** — free to use, no attribution required (credit given voluntarily above). https://unsplash.com/license
+- **Pexels License**: free to use, no attribution required (credit given voluntarily above). https://www.pexels.com/license/
+- **Unsplash License**: free to use, no attribution required (credit given voluntarily above). https://unsplash.com/license
 
 ## Notes
 
-- No image from the design source template was shipped. `design-source/Djoz-master/img/**` credits **pixabay.com** (see `design-source/Djoz-master/Source/photo credits.txt`) and its subjects are yoga/bedroom interior stock unrelated to radio — excluded per the brief's "Pexels and Unsplash only" policy. Rationale recorded in `DESIGN-INSPECTION.md` §10.
+- No image from the design source template was shipped. `design-source/Djoz-master/img/**` credits **pixabay.com** (see `design-source/Djoz-master/Source/photo credits.txt`) and its subjects are yoga/bedroom interior stock unrelated to radio, excluded per the brief's "Pexels and Unsplash only" policy. Rationale recorded in `DESIGN-INSPECTION.md` §10.
 - Watermarked commercial stock (Dreamstime / Getty / Unsplash+ premium) was identified during sourcing and **rejected**.
-- If a photo is replaced later, add its row here at the same time — `scripts/verify-images.mjs` fails the build when a shipped image has no credit entry.
+- If a photo is replaced later, add its row here at the same time, `scripts/verify-images.mjs` fails the build when a shipped image has no credit entry.

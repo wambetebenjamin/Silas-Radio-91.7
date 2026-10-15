@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 /**
- * GET /api/schedule — show schedule with live flags.
+ * GET /api/schedule: show schedule with live flags.
  *
  * Schedule is SSR for real-time show data; this endpoint serves the same
  * computed shape to client components (the schedule client refreshes it on
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
 }
 
 /**
- * PUT /api/schedule — studio override of a slot (live badge, recording link).
+ * PUT /api/schedule: studio override of a slot (live badge, recording link).
  * Guarded by STUDIO_API_TOKEN; falls back to an honest 501 when KV is absent.
  */
 export async function PUT(request: Request) {
@@ -56,7 +56,7 @@ export async function PUT(request: Request) {
 
   if (!storageConfigured) {
     return NextResponse.json(
-      { ok: false, error: 'KV is not configured — schedule overrides are unavailable.' },
+      { ok: false, error: 'KV is not configured, so schedule overrides are unavailable.' },
       { status: 501 },
     );
   }

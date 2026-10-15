@@ -119,8 +119,8 @@ export default function TermsPage() {
             </li>
             <li>
               <strong>Scheduling.</strong> We aim to run every booked spot as scheduled. If a programme
-              is cancelled or interrupted — including by transmission failure or events beyond our
-              control — the spot is re-run or the equivalent airtime is credited.
+              is cancelled or interrupted, including by transmission failure or events beyond our
+              control, the spot is re-run or the equivalent airtime is credited.
             </li>
             <li>
               <strong>Payment.</strong> Invoices are payable within 30 days of the invoice date.
@@ -181,7 +181,7 @@ export default function TermsPage() {
             <li>
               <strong>Your submissions.</strong> When you send a request, dedication, contest answer,
               news tip or photo you keep ownership of it, and you grant us a non-exclusive,
-              royalty-free licence to use, edit and broadcast it in connection with the station —
+              royalty-free licence to use, edit and broadcast it in connection with the station,
               including in podcast episodes and on our website and social channels.
             </li>
             <li>

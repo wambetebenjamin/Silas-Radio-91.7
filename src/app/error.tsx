@@ -13,8 +13,8 @@ import { WhatsAppIcon } from '@/components/icons';
  * Copy: "We are off-air temporarily. Back soon."
  * A Try Again button resets the route, and the studio WhatsApp number is
  * always visible so a listener can still reach the station while the site is
- * down. Kept free of heavy effects — this page must render even when the app
- * is failing.
+ * down. Kept free of heavy effects because this page must render even when the
+ * app is failing.
  */
 export default function ServerError({
   error,
@@ -38,8 +38,8 @@ export default function ServerError({
         <h1>We are off-air temporarily. Back soon.</h1>
 
         <p className="max-w-[52ch]">
-          Our site hit a fault while preparing this page. The transmitter is unaffected — you can keep
-          listening on 91.7 FM, and the studio is reachable on WhatsApp right now.
+          Our site hit a fault while preparing this page. The transmitter is unaffected, so you can
+          keep listening on 91.7 FM, and the studio is reachable on WhatsApp right now.
         </p>
 
         <div className="flex flex-wrap gap-3 justify-center">
